@@ -12,7 +12,7 @@ A comprehensive testing implementation for a Node.js JWT Authentication API with
 
 #### 1. Clone and setup
 ```bash
-git clone https://github.com/your-username/node-js-jwt-auth-testing.git
+git clone https://github.com/RanaRomdhane/node-js-jwt-auth-testing.git
 cd node-js-jwt-auth-testing
 npm install
 ```
