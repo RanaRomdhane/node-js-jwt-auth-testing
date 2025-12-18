@@ -1,0 +1,56 @@
+name: Node.js CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        mongodb-version: ['6.0']
+
+    steps:
+    # 1. Récupérer le code
+    - uses: actions/checkout@v4
+
+    # 2. Installer Node.js
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        # Remove cache line since we're not using ci
+        # cache: 'npm'
+
+    # 3. Lancer MongoDB (Pour les tests d'intégration)
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.10.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+
+    # 4. Installer les dépendances (using npm install instead of ci)
+    - name: Install dependencies
+      run: npm install
+
+    # 5. Lancer l'analyse statique (Lint)
+    - name: Run ESLint
+      run: npm run lint --if-present
+
+    # 6. Lancer les tests avec couverture
+    - name: Run Tests with Coverage
+      run: npm run test:coverage
+      env:
+        MONGODB_URI: mongodb://localhost:27017/test_db
+        JWT_SECRET: test_secret_key_123
+
+    # 7. Sauvegarder le rapport (optionnel)
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage/
