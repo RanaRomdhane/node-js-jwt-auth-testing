@@ -1,0 +1,3071 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NODE.JS JWT AUTHENTICATION %
+% PLAN DE TEST %
+% CERTILOG TEMPLATE %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{report}
+
+%==============================================================================
+% PACKAGES
+%==============================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{pifont}
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{lastpage}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{mdframed}
+\usepackage{setspace}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+
+%==============================================================================
+% TikZ LIBRARIES
+%==============================================================================
+\usetikzlibrary{
+shapes.geometric,
+arrows.meta,
+positioning,
+calc,
+decorations.pathreplacing,
+backgrounds,
+fit,
+shadows,
+patterns,
+chains,
+matrix
+}
+
+%==============================================================================
+% TCOLORBOX LIBRARIES
+%==============================================================================
+\tcbuselibrary{
+skins,
+breakable,
+fitting,
+listings
+}
+
+%==============================================================================
+% PAGE GEOMETRY
+%==============================================================================
+\geometry{
+a4paper,
+left=2.5cm,
+right=2.5cm,
+top=3cm,
+bottom=3cm,
+headheight=1.5cm,
+headsep=0.8cm,
+footskip=1.2cm
+}
+
+%==============================================================================
+% COLOR DEFINITIONS - CERTILOG INSPIRED PALETTE
+%==============================================================================
+% Primary Colors
+\definecolor{certilogBlue}{RGB}{0, 82, 147}
+\definecolor{certilogDarkBlue}{RGB}{0, 51, 102}
+\definecolor{certilogLightBlue}{RGB}{0, 120, 200}
+\definecolor{certilogNavy}{RGB}{25, 55, 95}
+
+% Accent Colors
+\definecolor{certilogOrange}{RGB}{243, 146, 0}
+\definecolor{certilogGold}{RGB}{218, 165, 32}
+\definecolor{certilogTeal}{RGB}{0, 150, 136}
+
+% Neutral Colors
+\definecolor{certilogGray}{RGB}{88, 89, 91}
+\definecolor{certilogLightGray}{RGB}{241, 243, 244}
+\definecolor{certilogMediumGray}{RGB}{180, 180, 180}
+\definecolor{certilogDarkGray}{RGB}{60, 60, 60}
+
+% Status Colors
+\definecolor{successGreen}{RGB}{46, 125, 50}
+\definecolor{warningYellow}{RGB}{255, 193, 7}
+\definecolor{errorRed}{RGB}{198, 40, 40}
+\definecolor{infoBlue}{RGB}{2, 136, 209}
+
+% Background Colors
+\definecolor{bgLight}{RGB}{248, 250, 252}
+\definecolor{bgBlue}{RGB}{232, 245, 253}
+\definecolor{bgGreen}{RGB}{232, 245, 233}
+\definecolor{bgYellow}{RGB}{255, 249, 196}
+\definecolor{bgRed}{RGB}{255, 235, 238}
+\definecolor{bgOrange}{RGB}{255, 243, 224}
+
+%==============================================================================
+% HYPERREF CONFIGURATION
+%==============================================================================
+\hypersetup{
+colorlinks=true,
+linkcolor=certilogBlue,
+filecolor=certilogBlue,
+urlcolor=certilogLightBlue,
+citecolor=certilogBlue,
+pdftitle={Plan de Test - Authentification JWT Node.js},
+pdfauthor={Oulimata SALL & Rana ROMDHANE},
+pdfsubject={Test Plan TJAA-2025},
+pdfkeywords={Test, JWT, Node.js, API, Authentication, Certilog},
+pdfproducer={LaTeX},
+pdfcreator={pdfLaTeX},
+bookmarks=true,
+bookmarksnumbered=true,
+bookmarksopen=true,
+bookmarksopenlevel=2
+}
+
+%==============================================================================
+% HEADER AND FOOTER STYLES
+%==============================================================================
+\pagestyle{fancy}
+\fancyhf{}
+
+% Header
+\fancyhead[L]{%
+\begin{tikzpicture}[remember picture, overlay]
+\fill[certilogBlue] (-1,-0.5) rectangle (\textwidth+1,0.8);
+\node[text=white, anchor=west] at (0,0.15) {%
+\small\textbf{TJAA-PT-001} | Plan de Test v1.0%
+};
+\node[text=white, anchor=east] at (\textwidth,0.15) {%
+\small Node.js JWT Authentication Testing%
+};
+\end{tikzpicture}%
+}
+
+% Footer
+\fancyfoot[C]{%
+\begin{tikzpicture}[remember picture, overlay]
+\fill[certilogLightGray] (-1,-0.3) rectangle (\textwidth+1,0.5);
+\draw[certilogBlue, line width=2pt] (-1,0.5) -- (\textwidth+1,0.5);
+\node[text=certilogGray, anchor=west] at (0,0.1) {%
+\small\textcopyright\ 2025 ENICAR - Équipe QA%
+};
+\node[text=certilogBlue, anchor=center] at (0.5\textwidth,0.1) {%
+\small\textbf{CONFIDENTIEL}%
+};
+\node[text=certilogGray, anchor=east] at (\textwidth,0.1) {%
+\small Page \thepage\ sur \pageref{LastPage}%
+};
+\end{tikzpicture}%
+}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Plain style for chapter pages
+\fancypagestyle{plain}{
+\fancyhf{}
+\fancyfoot[C]{%
+\begin{tikzpicture}[remember picture, overlay]
+\fill[certilogLightGray] (-1,-0.3) rectangle (\textwidth+1,0.5);
+\draw[certilogBlue, line width=2pt] (-1,0.5) -- (\textwidth+1,0.5);
+\node[text=certilogGray, anchor=center] at (0.5\textwidth,0.1) {%
+\small Page \thepage\ sur \pageref{LastPage}%
+};
+\end{tikzpicture}%
+}
+}
+
+%==============================================================================
+% SECTION TITLE FORMATTING
+%==============================================================================
+% Chapter Format
+\titleformat{\chapter}[display]
+{\normalfont\Huge\bfseries\color{certilogDarkBlue}}
+{%
+\begin{tikzpicture}[remember picture, overlay]
+\fill[certilogBlue] (0,0) rectangle (\textwidth,-4);
+\fill[certilogOrange] (0,-4) rectangle (\textwidth,-4.2);
+\node[text=white, anchor=west, font=\fontsize{60}{72}\selectfont\bfseries]
+at (0.5,-2) {\thechapter};
+\node[text=certilogOrange, anchor=west, font=\Large]
+at (3,-2) {CHAPITRE};
+\end{tikzpicture}%
+}
+{0pt}
+{\vspace{4.5cm}\hspace{0.5cm}}
+[]
+
+\titlespacing*{\chapter}{0pt}{0pt}{40pt}
+
+% Section Format
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{certilogBlue}}
+{\colorbox{certilogBlue}{\textcolor{white}{\thesection}}}
+{1em}
+{}
+[{\titlerule[2pt]}]
+
+\titlespacing*{\section}{0pt}{20pt}{10pt}
+
+% Subsection Format
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{certilogDarkBlue}}
+{\textcolor{certilogOrange}{\thesubsection}}
+{0.8em}
+{}
+
+\titlespacing*{\subsection}{0pt}{15pt}{8pt}
+
+% Subsubsection Format
+\titleformat{\subsubsection}
+{\normalfont\normalsize\bfseries\color{certilogNavy}}
+{\textcolor{certilogTeal}{\thesubsubsection}}
+{0.6em}
+{}
+
+\titlespacing*{\subsubsection}{0pt}{10pt}{5pt}
+
+%==============================================================================
+% CUSTOM TCOLORBOX ENVIRONMENTS
+%==============================================================================
+
+% Document Info Box
+\newtcolorbox{docinfo}[1][]{
+enhanced,
+colback=bgBlue,
+colframe=certilogBlue,
+coltitle=white,
+fonttitle=\bfseries\large,
+title=#1,
+boxrule=1pt,
+arc=3mm,
+left=10pt,
+right=10pt,
+top=8pt,
+bottom=8pt,
+shadow={2mm}{-2mm}{0mm}{black!20},
+breakable
+}
+
+% Important Note Box
+\newtcolorbox{notebox}[1][Note]{
+enhanced,
+colback=bgYellow,
+colframe=warningYellow,
+coltitle=certilogDarkGray,
+fonttitle=\bfseries,
+title={\faExclamationTriangle\ #1},
+boxrule=0pt,
+leftrule=4pt,
+arc=0mm,
+left=10pt,
+right=10pt,
+top=5pt,
+bottom=5pt,
+breakable
+}
+
+% Success Box
+\newtcolorbox{successbox}[1][Succès]{
+enhanced,
+colback=bgGreen,
+colframe=successGreen,
+coltitle=white,
+fonttitle=\bfseries,
+title={\faCheckCircle\ #1},
+boxrule=0pt,
+leftrule=4pt,
+arc=0mm,
+left=10pt,
+right=10pt,
+top=5pt,
+bottom=5pt,
+breakable
+}
+
+% Error Box
+\newtcolorbox{errorbox}[1][Attention]{
+enhanced,
+colback=bgRed,
+colframe=errorRed,
+coltitle=white,
+fonttitle=\bfseries,
+title={\faTimesCircle\ #1},
+boxrule=0pt,
+leftrule=4pt,
+arc=0mm,
+left=10pt,
+right=10pt,
+top=5pt,
+bottom=5pt,
+breakable
+}
+
+% Info Box
+\newtcolorbox{infobox}[1][Information]{
+enhanced,
+colback=bgBlue,
+colframe=infoBlue,
+coltitle=white,
+fonttitle=\bfseries,
+title={\faInfoCircle\ #1},
+boxrule=0pt,
+leftrule=4pt,
+arc=0mm,
+left=10pt,
+right=10pt,
+top=5pt,
+bottom=5pt,
+breakable
+}
+
+% Metric Box
+\newtcolorbox{metricbox}[1][]{
+enhanced,
+colback=certilogLightGray,
+colframe=certilogBlue,
+coltitle=white,
+fonttitle=\bfseries,
+title=#1,
+boxrule=1pt,
+arc=2mm,
+left=8pt,
+right=8pt,
+top=5pt,
+bottom=5pt,
+breakable
+}
+
+% Code Box
+\newtcolorbox{codebox}[1][Code]{
+enhanced,
+colback=certilogDarkGray,
+colframe=certilogDarkGray,
+coltitle=certilogOrange,
+fonttitle=\bfseries\ttfamily,
+title=#1,
+boxrule=0pt,
+arc=3mm,
+left=10pt,
+right=10pt,
+top=8pt,
+bottom=8pt,
+breakable
+}
+
+%==============================================================================
+% CUSTOM LIST STYLES
+%==============================================================================
+\setlist[itemize,1]{
+label=\textcolor{certilogBlue}{\faChevronRight},
+leftmargin=2em,
+itemsep=3pt
+}
+
+\setlist[itemize,2]{
+label=\textcolor{certilogOrange}{\faAngleRight},
+leftmargin=1.5em,
+itemsep=2pt
+}
+
+\setlist[enumerate,1]{
+label=\textcolor{certilogBlue}{\arabic*.},
+leftmargin=2em,
+itemsep=3pt
+}
+
+% Checkmark list
+\newlist{checklist}{itemize}{2}
+\setlist[checklist]{
+label=\textcolor{successGreen}{\faCheckSquare},
+leftmargin=2em,
+itemsep=3pt
+}
+
+%==============================================================================
+% CUSTOM TABLE COLUMN TYPES
+%==============================================================================
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% Table header style
+\newcommand{\tableheader}[1]{\textbf{\textcolor{white}{#1}}}
+\newcommand{\headerrow}{\rowcolor{certilogBlue}}
+
+%==============================================================================
+% CUSTOM COMMANDS
+%==============================================================================
+
+% Version badge
+\newcommand{\versionbadge}[1]{%
+\tikz[baseline=(badge.base)]{
+\node[fill=certilogBlue, text=white, rounded corners=2pt,
+inner xsep=5pt, inner ysep=2pt, font=\small\bfseries] (badge) {#1};
+}%
+}
+
+% Status badge
+\newcommand{\statusbadge}[2]{%
+\tikz[baseline=(badge.base)]{
+\node[fill=#2, text=white, rounded corners=2pt,
+inner xsep=5pt, inner ysep=2pt, font=\small\bfseries] (badge) {#1};
+}%
+}
+
+% Priority badge
+\newcommand{\prioritybadge}[1]{%
+\ifcase#1\or
+\statusbadge{P1}{errorRed}%
+\or
+\statusbadge{P2}{certilogOrange}%
+\or
+\statusbadge{P3}{warningYellow}%
+\or
+\statusbadge{P4}{certilogMediumGray}%
+\fi
+}
+
+% Criticality indicator
+\newcommand{\critical}{\textcolor{errorRed}{\faBolt\ \textbf{CRITIQUE}}}
+\newcommand{\high}{\textcolor{certilogOrange}{\faExclamationTriangle\ \textbf{HAUTE}}}
+\newcommand{\medium}{\textcolor{warningYellow}{\faInfoCircle\ \textbf{MOYENNE}}}
+\newcommand{\low}{\textcolor{certilogGray}{\faArrowDown\ \textbf{FAIBLE}}}
+
+% Checkmarks and crosses
+\newcommand{\yes}{\textcolor{successGreen}{\faCheck}}
+\newcommand{\no}{\textcolor{errorRed}{\faTimes}}
+\newcommand{\partial}{\textcolor{warningYellow}{\faAdjust}}
+
+% Probability indicators
+\newcommand{\probhigh}{\textcolor{errorRed}{\faCircle\ Élevée}}
+\newcommand{\probmedium}{\textcolor{warningYellow}{\faCircle\ Moyenne}}
+\newcommand{\problow}{\textcolor{successGreen}{\faCircle\ Faible}}
+
+%==============================================================================
+% LISTINGS CONFIGURATION
+%==============================================================================
+\lstset{
+basicstyle=\ttfamily\small\color{white},
+backgroundcolor=\color{certilogDarkGray},
+keywordstyle=\color{certilogOrange}\bfseries,
+stringstyle=\color{successGreen},
+commentstyle=\color{certilogMediumGray}\itshape,
+numbers=left,
+numberstyle=\tiny\color{certilogMediumGray},
+numbersep=8pt,
+frame=none,
+breaklines=true,
+breakatwhitespace=true,
+tabsize=2,
+showstringspaces=false,
+xleftmargin=15pt,
+xrightmargin=10pt
+}
+
+%==============================================================================
+% DOCUMENT INFORMATION
+%==============================================================================
+\newcommand{\docTitle}{Plan de Test}
+\newcommand{\docSubtitle}{Authentification JWT Node.js}
+\newcommand{\docRef}{TJAA-PT-001}
+\newcommand{\docVersion}{v1.0}
+\newcommand{\projectRef}{TJAA-2025}
+\newcommand{\docDate}{01/12/2025}
+\newcommand{\authorOne}{Oulimata SALL}
+\newcommand{\authorTwo}{Rana ROMDHANE}
+
+%==============================================================================
+% DOCUMENT START
+%==============================================================================
+\begin{document}
+
+%==============================================================================
+% COVER PAGE
+%==============================================================================
+\begin{titlepage}
+\thispagestyle{empty}
+
+% Background decoration
+\begin{tikzpicture}[remember picture, overlay]
+% Top banner
+\fill[certilogBlue]
+(current page.north west) rectangle
+([yshift=-6cm]current page.north east);
+
+text
+
+% Orange accent line
+\fill[certilogOrange] 
+    ([yshift=-6cm]current page.north west) rectangle 
+    ([yshift=-6.3cm]current page.north east);
+
+% Bottom banner
+\fill[certilogDarkBlue] 
+    (current page.south west) rectangle 
+    ([yshift=3cm]current page.south east);
+
+% Decorative circles
+\foreach \x/\y/\r/\o in {-2/2/3/0.1, 18/1/4/0.08, 16/-2/2/0.15} {
+    \fill[white, opacity=\o] ([xshift=\x cm, yshift=\y cm]current page.north west) 
+        circle (\r cm);
+}
+
+% Grid pattern in header
+\foreach \i in {0,0.5,...,21} {
+    \draw[white, opacity=0.05, line width=0.5pt] 
+        ([xshift=\i cm]current page.north west) -- 
+        ([xshift=\i cm, yshift=-6cm]current page.north west);
+}
+
+% Logo placeholder (CERTILOG style)
+\node[anchor=north west, inner sep=0] at ([xshift=2cm, yshift=-1.5cm]current page.north west) {
+    \begin{tikzpicture}
+        \node[fill=white, rounded corners=5pt, inner sep=10pt, 
+              drop shadow={shadow xshift=2pt, shadow yshift=-2pt, opacity=0.3}] {
+            \begin{tabular}{l}
+                \textcolor{certilogBlue}{\fontsize{24}{28}\selectfont\bfseries CERTILOG}\\[-2pt]
+                \textcolor{certilogOrange}{\small\itshape Template}
+            \end{tabular}
+        };
+    \end{tikzpicture}
+};
+
+% Document type badge
+\node[anchor=north east, inner sep=0] at ([xshift=-2cm, yshift=-2cm]current page.north east) {
+    \begin{tikzpicture}
+        \node[fill=certilogOrange, text=white, rounded corners=3pt, 
+              inner xsep=15pt, inner ysep=8pt, font=\large\bfseries] {
+            PLAN DE TEST
+        };
+    \end{tikzpicture}
+};
+
+% Main title area
+\node[anchor=center, inner sep=0] at ([yshift=-1cm]current page.center) {
+    \begin{tikzpicture}
+        % Title box
+        \node[fill=white, rounded corners=10pt, inner sep=25pt,
+              drop shadow={shadow xshift=3pt, shadow yshift=-3pt, opacity=0.2},
+              minimum width=14cm] (titlebox) {
+            \begin{minipage}{13cm}
+                \centering
+                
+                % Icon
+                \begin{tikzpicture}
+                    \node[circle, fill=certilogBlue, minimum size=1.5cm] {
+                        \textcolor{white}{\fontsize{24}{28}\selectfont\faLock}
+                    };
+                \end{tikzpicture}
+                
+                \vspace{15pt}
+                
+                % Title
+                {\fontsize{28}{34}\selectfont\bfseries\color{certilogDarkBlue}
+                NODE.JS JWT\\[5pt]
+                AUTHENTICATION TESTING}
+                
+                \vspace{20pt}
+                
+                % Divider
+                \begin{tikzpicture}
+                    \draw[certilogOrange, line width=3pt] (0,0) -- (8,0);
+                    \fill[certilogBlue] (4,0) circle (5pt);
+                \end{tikzpicture}
+                
+                \vspace{20pt}
+                
+                % Project reference
+                {\Large\color{certilogGray} Projet: \textbf{\projectRef}}
+                
+                \vspace{10pt}
+                
+                % Document reference
+                {\large\color{certilogGray} Référence: \textbf{\docRef}}
+                
+            \end{minipage}
+        };
+    \end{tikzpicture}
+};
+
+% Version and date info
+\node[anchor=south, inner sep=0] at ([yshift=6cm]current page.south) {
+    \begin{tikzpicture}
+        \node[fill=certilogLightGray, rounded corners=5pt, inner sep=15pt] {
+            \begin{tabular}{ccc}
+                \textcolor{certilogBlue}{\faCalendarAlt} & 
+                \textcolor{certilogBlue}{\faCodeBranch} & 
+                \textcolor{certilogBlue}{\faUsers} \\[5pt]
+                \textbf{\docDate} & 
+                \textbf{\docVersion} & 
+                \textbf{Équipe QA}
+            \end{tabular}
+        };
+    \end{tikzpicture}
+};
+
+% Authors
+\node[anchor=south, text=white, inner sep=0] at ([yshift=1cm]current page.south) {
+    \begin{tabular}{c}
+        {\large\bfseries Préparé par}\\[8pt]
+        {\Large \authorOne\ \textcolor{certilogOrange}{\&}\ \authorTwo}\\[5pt]
+        {\small ENICAR - École Nationale d'Ingénieurs de Carthage}
+    \end{tabular}
+};
+\end{tikzpicture}
+
+\end{titlepage}
+
+%==============================================================================
+% DOCUMENT IDENTIFICATION PAGE
+%==============================================================================
+\newpage
+\thispagestyle{empty}
+
+\vspace*{1cm}
+
+\begin{center}
+{\Huge\bfseries\color{certilogBlue} IDENTIFICATION DU DOCUMENT}
+\end{center}
+
+\vspace{1cm}
+
+\begin{docinfo}[Informations Générales]
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|>{\columncolor{certilogLightGray}}L{5cm}|L{9cm}|}
+\hline
+\textbf{Nom du document} & Plan de Test - Authentification JWT Node.js \
+\hline
+\textbf{Référence du projet} & TJAA-2025 \
+\hline
+\textbf{Référence du document} & TJAA-PT-001 \
+\hline
+\textbf{Version} & v 1.0 \
+\hline
+\textbf{Préparé par} & Oulimata SALL & Rana ROMDHANE \
+\hline
+\textbf{Date} & 01/12/2025 \
+\hline
+\end{tabular}
+\end{center}
+\end{docinfo}
+
+\vspace{1cm}
+
+\begin{docinfo}[Historique des Changements]
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|C{1.2cm}|C{2.5cm}|C{2.5cm}|L{3cm}|L{4.5cm}|}
+\hline
+\headerrow
+\tableheader{Version} & \tableheader{ID Demande} & \tableheader{Date} & \tableheader{Modifié par} & \tableheader{Description} \
+\hline
+1.0 & TJAA-PT-001 & 01/12/2025 & O. SALL & R. ROMDHANE & Création initiale du plan de test \
+\hline
+\end{tabular}
+\end{center}
+\end{docinfo}
+
+\vspace{1cm}
+
+\begin{docinfo}[Distribution et Validation]
+
+\begin{infobox}[Méthode RACI]
+\begin{itemize}[leftmargin=1cm]
+\item \textbf{R} : Réalisation (Responsible)
+\item \textbf{A} : Approbation (Accountable)
+\item \textbf{C} : Consultation (Consulted)
+\item \textbf{I} : Information (Informed)
+\end{itemize}
+\end{infobox}
+
+\vspace{0.5cm}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{3.5cm}|L{2.5cm}|C{2cm}|C{1.2cm}|C{2.8cm}|}
+\hline
+\headerrow
+\tableheader{NOM Prénom} & \tableheader{Rôle} & \tableheader{Entité} & \tableheader{RACI} & \tableheader{Date validation} \
+\hline
+SALL Oulimata & Test Lead & Équipe QA & R & 01/12/2025 \
+\hline
+ROMDHANE Rana & Test Engineer & Équipe QA & R & 01/12/2025 \
+\hline
+AOUADI Hela & Encadrant & ENICAR & A & À valider \
+\hline
+\end{tabular}
+\end{center}
+\end{docinfo}
+
+%==============================================================================
+% TABLE OF CONTENTS
+%==============================================================================
+\newpage
+\thispagestyle{plain}
+
+\begin{tikzpicture}[remember picture, overlay]
+\fill[certilogBlue] (current page.north west) rectangle ([yshift=-3.5cm]current page.north east);
+\node[anchor=west, text=white, font=\Huge\bfseries] at ([xshift=2cm, yshift=-2cm]current page.north west) {
+\faListOl\quad TABLE DES MATIÈRES
+};
+\end{tikzpicture}
+
+\vspace{3cm}
+
+\setcounter{tocdepth}{3}
+
+% Customize TOC appearance
+\titlecontents{chapter}[0pt]
+{\addvspace{15pt}\bfseries\large\color{certilogBlue}}
+{\thecontentslabel\quad}
+{}
+{\hfill\contentspage}
+
+\titlecontents{section}[20pt]
+{\addvspace{5pt}\color{certilogDarkBlue}}
+{\thecontentslabel\quad}
+{}
+{\titlerule*[8pt]{.}\contentspage}
+
+\titlecontents{subsection}[40pt]
+{\small\color{certilogGray}}
+{\thecontentslabel\quad}
+{}
+{\titlerule*[8pt]{.}\contentspage}
+
+\tableofcontents
+
+%==============================================================================
+% CHAPTER 1: INTRODUCTION
+%==============================================================================
+\chapter{INTRODUCTION}
+
+\section{Objectif}
+
+Ce Plan de Test est élaboré conformément au template \textbf{Certilog} et constitue le document officiel définissant l'ensemble des activités de tests pour le projet \textbf{Node.js JWT Authentication Testing}, développé par \textbf{Oulimata SALL} et \textbf{Rana ROMDHANE}.
+
+\begin{successbox}[Objectifs Principaux]
+\begin{checklist}
+\item Vérifier la conformité fonctionnelle de l'API d'authentification JWT
+\item Valider les aspects techniques (middleware, base de données MongoDB)
+\item Assurer la robustesse des aspects non fonctionnels (sécurité, performance)
+\item Garantir la fiabilité du pipeline CI/CD (GitHub Actions)
+\item Confirmer la maintenabilité et la qualité du code
+\end{checklist}
+\end{successbox}
+
+\vspace{0.5cm}
+
+Ce document sert de référence pour toutes les parties prenantes du projet et définit clairement les stratégies, ressources, livrables et critères de qualité attendus.
+
+\section{Références}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|C{1.2cm}|L{4.5cm}|L{6.5cm}|C{2cm}|}
+\hline
+\headerrow
+\tableheader{ID} & \tableheader{Titre du document} & \tableheader{Lien ou emplacement} & \tableheader{Date} \
+\hline
+REF-01 & Dépôt GitHub du projet & \url{https://github.com/RanaRomdhane/node-js-jwt-auth-testing} & 15/11/2025 \
+\hline
+REF-02 & Campagne de tests Jira/Xray & {[TJAA-35] Campagne de Test - Sprint 1} & 20/11/2025 \
+\hline
+REF-03 & Modèle Certilog & Certilog_Plan_de_Test_1.0.1 & 01/10/2025 \
+\hline
+REF-04 & Documentation API & README.md du repository GitHub & 15/11/2025 \
+\hline
+\end{tabular}
+\end{center}
+
+%==============================================================================
+% CHAPTER 2: APERÇU GÉNÉRAL DU PROJET
+%==============================================================================
+\chapter{APERÇU GÉNÉRAL DU PROJET}
+
+Le projet consiste à concevoir, développer, tester et automatiser une API RESTful moderne utilisant les technologies suivantes :
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=2.5cm,
+tech/.style={
+rectangle, rounded corners=8pt,
+minimum width=3cm, minimum height=1.2cm,
+draw=certilogBlue, line width=1.5pt,
+fill=bgBlue, font=\bfseries,
+drop shadow
+}
+]
+\node[tech] (nodejs) {\faNodeJs\ Node.js};
+\node[tech, right=of nodejs] (mongodb) {\faDatabase\ MongoDB};
+\node[tech, right=of mongodb] (jwt) {\faKey\ JWT};
+
+text
+
+\draw[-{Stealth[length=3mm]}, certilogOrange, line width=2pt] 
+    (nodejs) -- (mongodb);
+\draw[-{Stealth[length=3mm]}, certilogOrange, line width=2pt] 
+    (mongodb) -- (jwt);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Fonctionnalités Principales}
+
+\begin{metricbox}[Fonctionnalités Métier]
+\begin{itemize}
+\item Gestion complète de l'authentification utilisateur (inscription, connexion, déconnexion)
+\item Système de gestion des rôles et permissions (user, moderator, admin)
+\item Sécurisation des endpoints via JWT
+\item Accès conditionnel aux ressources protégées selon les rôles
+\item Validation robuste des données entrantes
+\end{itemize}
+\end{metricbox}
+
+\subsection{Périmètre des Tests}
+
+\begin{center}
+\begin{tikzpicture}[
+scope/.style={
+rectangle, rounded corners=5pt,
+minimum width=4.5cm, minimum height=1cm,
+font=\small\bfseries, text=white
+}
+]
+% Test categories
+\node[scope, fill=certilogBlue] (func) at (0,0) {Tests Fonctionnels};
+\node[scope, fill=certilogTeal] (tech) at (5,0) {Tests Techniques};
+\node[scope, fill=certilogOrange] (sec) at (10,0) {Tests Sécurité};
+\node[scope, fill=successGreen] (perf) at (2.5,-1.5) {Tests Performance};
+\node[scope, fill=certilogNavy] (maint) at (7.5,-1.5) {Tests Maintenabilité};
+
+text
+
+% Central node
+\node[circle, fill=certilogDarkBlue, text=white, minimum size=2cm, font=\bfseries] 
+    (center) at (5,-3.5) {CI/CD};
+
+% Connections
+\foreach \source in {func, tech, sec, perf, maint} {
+    \draw[certilogGray, line width=1pt, dashed] (\source) -- (center);
+}
+\end{tikzpicture}
+\end{center}
+
+\section{Jalons du Projet}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{5cm}|C{2.5cm}|L{6cm}|}
+\hline
+\headerrow
+\tableheader{Jalons métiers} & \tableheader{Date} & \tableheader{Commentaires} \
+\hline
+Étude d'opportunité (T-1) & 01/10/2025 & Analyse de faisabilité réalisée par l'entreprise \
+\hline
+Analyse détaillée (T0) & 05/10/2025 & Étude approfondie du cahier des charges \
+\hline
+Développement (T1) & 15/10/2025 & Mise en œuvre de l'API et des fonctionnalités \
+\hline
+Tests et validation (T1.5) & 01/11/2025 & Phase de tests complète (objet de ce document) \
+\hline
+Déploiement (T2) & 26/11/2025 & Mise en production de l'application \
+\hline
+Lancement sur le marché (T3) & 28/11/2026 & Diffusion et communication externe \
+\hline
+Clôture du projet (T4) & 29/11/2026 & Bilan final et documentation de clôture \
+\hline
+\end{tabular}
+\end{center}
+
+\section{Jalons Clés du Projet et du Test}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{4.5cm}|C{3cm}|L{5.5cm}|}
+\hline
+\headerrow
+\tableheader{Jalons clés du test} & \tableheader{Date} & \tableheader{Commentaires} \
+\hline
+Livraison des endpoints REST & 01/10/2025 & Début officiel du projet de test \
+\hline
+Mise en place du pipeline CI/CD & 17/11/2025 & Fondation de l'automatisation \
+\hline
+Création des cas de tests & 20/10 - 25/10/2025 & Rédaction des scénarios dans Xray/Jira \
+\hline
+Exécution des tests unitaires & 01/11/2025 & Validation des fonctions isolées (Jest) \
+\hline
+Exécution des tests d'intégration & 02/11/2025 & Tests API avec Supertest \
+\hline
+Exécution des tests E2E & 02/11/2025 & Scénarios utilisateur (Chai/Postman) \
+\hline
+Tests de sécurité & 05/11/2025 & Validation des vulnérabilités \
+\hline
+Tests de performance & 05/11/2025 & Mesure des temps de réponse \
+\hline
+Analyse des résultats & 20/11/2025 & Consolidation des métriques \
+\hline
+Publication des rapports & 01/12/2025 & Rapports de couverture et qualité \
+\hline
+Validation finale & 15/12/2025 & Acceptation du projet de test \
+\hline
+\end{tabular}
+\end{center}
+
+%==============================================================================
+% CHAPTER 3: ÉLÉMENTS À TESTER
+%==============================================================================
+\chapter{ÉLÉMENTS À TESTER}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|C{2cm}|L{3.5cm}|C{1.5cm}|C{2cm}|L{4cm}|}
+\hline
+\headerrow
+\tableheader{ID} & \tableheader{Nom} & \tableheader{Version} & \tableheader{Type} & \tableheader{Commentaires} \
+\hline
+API-AUTH-01 & Code source Node.js & 1.0 & Logiciel & Logique métier de l'API \
+\hline
+API-AUTH-02 & Middleware JWT & 1.0 & Logiciel & Gestion authentification \
+\hline
+API-AUTH-03 & Modèles MongoDB & 1.0 & Logiciel & Schémas User, Role \
+\hline
+API-AUTH-04 & Pipeline CI/CD & 1.0 & Logiciel & GitHub Actions \
+\hline
+API-AUTH-05 & Documentation & 1.0 & Document & README, API docs \
+\hline
+API-AUTH-06 & Tests automatisés & 1.0 & Logiciel & Jest + Supertest \
+\hline
+API-AUTH-07 & Configuration & 1.0 & Config & Variables d'environnement \
+\hline
+\end{tabular}
+\end{center}
+
+%==============================================================================
+% CHAPTER 4: CARACTÉRISTIQUES À TESTER
+%==============================================================================
+\chapter{CARACTÉRISTIQUES À TESTER}
+
+Les caractéristiques suivantes seront testées de manière exhaustive :
+
+\subsection{Fonctionnalités Métier}
+
+\begin{checklist}
+\item Inscription utilisateur (signup) avec validation des données
+\item Connexion utilisateur (signin) et génération de tokens JWT
+\item Gestion des rôles (user, moderator, admin)
+\item Accès protégé aux endpoints selon les rôles
+\item Refresh token et renouvellement de session
+\end{checklist}
+
+\subsection{Aspects Techniques}
+
+\begin{checklist}
+\item Validation des données d'entrée (format, longueur, types)
+\item Hachage sécurisé des mots de passe (bcrypt)
+\item Génération et vérification des tokens JWT
+\item Middleware d'authentification et autorisation
+\item Intégration MongoDB (CRUD opérations)
+\end{checklist}
+
+\subsection{Aspects Non Fonctionnels}
+
+\begin{checklist}
+\item Sécurité (injections SQL/NoSQL, XSS, tokens invalides/expirés)
+\item Performance (temps de réponse, charge modérée)
+\item Maintenabilité du code (qualité, lisibilité, respect des standards)
+\end{checklist}
+
+\subsection{Infrastructure}
+
+\begin{checklist}
+\item Tests automatisés dans le pipeline CI/CD
+\item Couverture de code (statements, branches, functions)
+\item Analyse statique du code (ESLint, SonarQube)
+\end{checklist}
+
+%==============================================================================
+% CHAPTER 5: CARACTÉRISTIQUES À NE PAS TESTER
+%==============================================================================
+\chapter{CARACTÉRISTIQUES À NE PAS TESTER}
+
+Certaines fonctionnalités sont explicitement hors périmètre pour les raisons suivantes :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{4.5cm}|L{9cm}|}
+\hline
+\headerrow
+\tableheader{Caractéristique} & \tableheader{Raison de l'exclusion} \
+\hline
+Interface front-end (UI) & Aucune interface utilisateur n'existe (API backend uniquement) \
+\hline
+Tests de charge extrême & Stress tests > 10 000 req/s non requis pour ce projet académique \
+\hline
+Scalabilité horizontale & Clusterisation et load balancing non prévus \
+\hline
+Tests multi-navigateurs & Pas d'interface web à tester \
+\hline
+Compatibilité mobile & Application backend uniquement \
+\hline
+Intégrations tierces & Aucun service externe (paiement, email) \
+\hline
+Tests de récupération & Backup/restore non implémentés \
+\hline
+Tests d'accessibilité & Non applicable pour une API REST \
+\hline
+\end{tabular}
+\end{center}
+
+\begin{notebox}[Note importante]
+Ces exclusions pourront être reconsidérées dans les versions futures du projet selon l'évolution des besoins.
+\end{notebox}
+
+%==============================================================================
+% CHAPTER 6: APPROCHE TEST
+%==============================================================================
+\chapter{APPROCHE TEST}
+
+L'approche de test adoptée repose sur une méthodologie hybride combinant :
+
+\begin{itemize}
+\item Tests fonctionnels et techniques
+\item Tests automatisés (majoritaires) et manuels (ponctuels)
+\item Tests à différents niveaux (unitaires, intégration, système)
+\item Traçabilité complète des exigences aux résultats
+\end{itemize}
+
+\begin{infobox}[Principes Directeurs]
+\begin{description}[leftmargin=2cm, labelwidth=1.8cm]
+\item[\textbf{Automatisation maximale}] Priorité aux tests automatisés pour garantir la répétabilité
+\item[\textbf{Shift-left testing}] Tests précoces dès le développement
+\item[\textbf{Continuous testing}] Intégration dans le pipeline CI/CD
+\item[\textbf{Traçabilité totale}] Liens exigences 
+↔
+↔ tests 
+↔
+↔ défauts
+\item[\textbf{Qualité mesurable}] Métriques objectives et KPI définis
+\end{description}
+\end{infobox}
+
+\section{Criticité des Caractéristiques à Tester}
+
+La criticité est évaluée selon l'impact métier et le risque technique :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{4.5cm}|C{2.5cm}|L{6cm}|}
+\hline
+\headerrow
+\tableheader{Caractéristique} & \tableheader{Criticité} & \tableheader{Justification} \
+\hline
+Inscription / Connexion & \critical & Fonctionnalité fondamentale bloquante \
+\hline
+Sécurité JWT & \critical & Faille = compromission totale \
+\hline
+Gestion des rôles & \high & Contrôle d'accès essentiel \
+\hline
+Validation des données & \high & Protection contre injections \
+\hline
+Pipeline CI/CD & \high & Garantit la qualité en continu \
+\hline
+Performance API & \medium & Important mais non bloquant \
+\hline
+Documentation & \low & Utile mais non critique \
+\hline
+\end{tabular}
+\end{center}
+
+\section{Effort de Test}
+
+L'effort de test est distribué stratégiquement sur les différents niveaux :
+
+\begin{center}
+\begin{tikzpicture}
+% Pie chart
+\foreach \p/\c/\l [count=\i from 0] in {
+30/certilogBlue/Tests unitaires,
+25/certilogTeal/Tests intégration,
+25/certilogOrange/Tests E2E,
+10/errorRed/Tests sécurité,
+5/successGreen/Tests performance,
+5/certilogNavy/CI/CD
+} {
+\pgfmathsetmacro{\startangle}{90 + \i60}
+\pgfmathsetmacro{\endangle}{\startangle - \p3.6}
+
+text
+
+    \fill[\c] (0,0) -- (\startangle:2.5) arc (\startangle:\endangle:2.5) -- cycle;
+    
+    \pgfmathsetmacro{\midangle}{(\startangle + \endangle)/2}
+    \node[font=\small\bfseries, text=white] at (\midangle:1.8) {\p\%};
+}
+
+% Legend
+\foreach \c/\l [count=\i from 0] in {
+    certilogBlue/Tests unitaires (30\%),
+    certilogTeal/Tests intégration (25\%),
+    certilogOrange/Tests E2E (25\%),
+    errorRed/Tests sécurité (10\%),
+    successGreen/Tests performance (5\%),
+    certilogNavy/Vérification CI/CD (5\%)
+} {
+    \fill[\c] (5, 2.5 - \i*0.6) rectangle ++(0.4, 0.4);
+    \node[anchor=west, font=\small] at (5.6, 2.7 - \i*0.6) {\l};
+}
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5cm}
+
+\textbf{Total estimé :} 8 jours/personne pour l'ensemble des activités de test.
+
+\section{Niveaux de Test}
+
+\begin{metricbox}[Niveau 1 - Tests Unitaires (Jest)]
+\begin{itemize}
+\item \textbf{Objectif :} Valider les fonctions isolées
+\item \textbf{Scope :} Fonctions utilitaires, validation, hashing, génération JWT
+\item \textbf{Outils :} Jest avec mocks et stubs
+\item \textbf{Critère de succès :} 100% des fonctions critiques testées
+\end{itemize}
+\end{metricbox}
+
+\begin{metricbox}[Niveau 2 - Tests d'Intégration (Supertest + MongoDB)]
+\begin{itemize}
+\item \textbf{Objectif :} Vérifier les interactions API 
+↔
+↔ Base de données
+\item \textbf{Scope :} Endpoints REST, middleware, persistance MongoDB
+\item \textbf{Outils :} Supertest, MongoDB Memory Server
+\item \textbf{Critère de succès :} Tous les endpoints testés
+\end{itemize}
+\end{metricbox}
+
+\begin{metricbox}[Niveau 3 - Tests Système / E2E (Chai / Postman)]
+\begin{itemize}
+\item \textbf{Objectif :} Valider les parcours utilisateur complets
+\item \textbf{Scope :} Scénarios métier de bout en bout
+\item \textbf{Outils :} Chai, Postman/Newman
+\item \textbf{Critère de succès :} Tous les parcours critiques validés
+\end{itemize}
+\end{metricbox}
+
+\begin{metricbox}[Niveau 4 - Tests Non Fonctionnels]
+\begin{itemize}
+\item \textbf{Objectif :} Valider sécurité et performance
+\item \textbf{Scope :} Vulnérabilités OWASP, temps de réponse, charge
+\item \textbf{Outils :} Scripts personnalisés, autocannon/loadtest
+\item \textbf{Critère de succès :} Conformité aux standards
+\end{itemize}
+\end{metricbox}
+
+\begin{metricbox}[Niveau 5 - Tests CI/CD (GitHub Actions)]
+\begin{itemize}
+\item \textbf{Objectif :} Garantir la stabilité du pipeline
+\item \textbf{Scope :} Installation, lint, tests, build, déploiement
+\item \textbf{Outils :} GitHub Actions, rapports automatiques
+\item \textbf{Critère de succès :} Pipeline stable avec 95%+ de succès
+\end{itemize}
+\end{metricbox}
+
+\section{Techniques de Test}
+
+\subsection{Tests Statiques}
+
+\begin{itemize}
+\item \textbf{ESLint :} Analyse syntaxique et respect des conventions
+\item \textbf{SonarQube :} Détection de code smells, bugs potentiels, vulnérabilités
+\item \textbf{Audit manuel :} Revue de code peer-to-peer
+\end{itemize}
+
+\subsection{Tests Dynamiques}
+
+\begin{itemize}
+\item \textbf{Jest :} Exécution des tests unitaires avec assertions
+\item \textbf{Supertest :} Tests HTTP des endpoints API
+\item \textbf{Chai :} Assertions avancées pour tests E2E
+\end{itemize}
+
+\subsection{Techniques de Conception de Tests}
+
+\begin{itemize}
+\item \textbf{Partitionnement en classes d'équivalence :} Validation des formulaires (email valide/invalide)
+\item \textbf{Analyse des valeurs limites :} Longueur minimale/maximale des champs
+\item \textbf{Tests en boîte noire :} Validation des entrées/sorties API
+\item \textbf{Tests en boîte blanche :} Couverture du code, branches conditionnelles
+\end{itemize}
+
+\section{Priorisation de l'Exécution des Tests}
+
+\subsection{Niveau 1 - Tests Unitaires}
+
+\textbf{Objectif :} Valider les fonctions internes de l'API.
+
+\begin{infobox}[Critères de Priorisation]
+\begin{description}
+\item[\faCode\ Complexité du code] Fonctions avec logique conditionnelle avancée
+\item[\faBolt\ Risque technique] Fonctions susceptibles de provoquer des erreurs silencieuses
+\item[\faProjectDiagram\ Impact sur composants] Fonctions réutilisées dans plusieurs modules
+\item[\faSync\ Fréquence d'appel] Fonctions fortement sollicitées
+\end{description}
+\end{infobox}
+
+\textbf{Ordre d'exécution :}
+\begin{enumerate}
+\item Fonctions de validation des données
+\item Hashing et cryptographie (bcrypt, JWT)
+\item Utilitaires et helpers
+\item Fonctions métier simples
+\end{enumerate}
+
+\subsection{Niveau 2 - Tests d'Intégration}
+
+\textbf{Objectif :} Vérifier l'interaction API 
+↔
+↔ Base de données / middleware.
+
+\begin{infobox}[Critères de Priorisation]
+\begin{description}
+\item[\faBriefcase\ Risque métier] Scénarios d'inscription et connexion
+\item[\faExclamationTriangle\ Sévérité potentielle] Erreurs d'intégration bloquantes
+\item[\faExchangeAlt\ Criticité des flux] Login 
+→
+→ génération JWT 
+→
+→ accès protégé
+\item[\faChartLine\ Fréquence d'utilisation] Endpoints les plus appelés
+\end{description}
+\end{infobox}
+
+\textbf{Ordre d'exécution :}
+\begin{enumerate}
+\item Endpoints d'authentification (signup, signin)
+\item Endpoints protégés par rôles
+\item Middleware d'autorisation
+\item Opérations CRUD MongoDB
+\item Endpoints secondaires
+\end{enumerate}
+
+\subsection{Niveau 3 - Tests Système / E2E}
+
+\textbf{Objectif :} Valider le parcours utilisateur complet.
+
+\textbf{Ordre d'exécution :}
+\begin{enumerate}
+\item Parcours utilisateur standard (signup 
+→
+→ login 
+→
+→ accès)
+\item Parcours avec différents rôles (user, moderator, admin)
+\item Scénarios de gestion de session (refresh, logout)
+\item Scénarios d'erreur (credentials incorrects, accès refusé)
+\end{enumerate}
+
+\subsection{Niveau 4 - Tests Non Fonctionnels}
+
+\subsubsection{Performance}
+
+Tests prioritaires :
+\begin{itemize}
+\item Temps de réponse endpoints authentification (< 200ms)
+\item Comportement sous charge modérée (50 req/s)
+\item Stabilité mémoire et CPU
+\end{itemize}
+
+\subsubsection{Sécurité}
+
+Tests prioritaires :
+\begin{itemize}
+\item Tokens invalides/expirés/manipulés
+\item Tentatives d'injection NoSQL
+\item Brute force sur login (rate limiting)
+\item Accès aux endpoints sans authentification
+\item Élévation de privilèges (user 
+→
+→ admin)
+\end{itemize}
+
+\section{Automatisation des Tests}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{3.5cm}|C{2cm}|L{3.5cm}|C{3cm}|}
+\hline
+\headerrow
+\tableheader{Niveau de test} & \tableheader{Auto.} & \tableheader{Outil principal} & \tableheader{Fréquence} \
+\hline
+Tests unitaires & \yes\ 100% & Jest & Chaque commit \
+\hline
+Tests d'intégration & \yes\ 100% & Supertest & Chaque commit \
+\hline
+Tests E2E & \yes\ 90% & Chai / Newman & Chaque push main \
+\hline
+Tests de sécurité & \yes\ 80% & Scripts custom & Quotidien \
+\hline
+Tests de performance & \yes\ 70% & loadtest/autocannon & Hebdomadaire \
+\hline
+Linting & \yes\ 100% & ESLint & Chaque commit \
+\hline
+Analyse de couverture & \yes\ 100% & Jest coverage & Chaque push \
+\hline
+Pipeline CI/CD & \yes\ 100% & GitHub Actions & Chaque push \
+\hline
+\end{tabular}
+\end{center}
+
+\begin{successbox}[Bénéfices de l'Automatisation]
+\begin{itemize}
+\item Exécution rapide et répétable
+\item Détection précoce des régressions
+\item Feedback immédiat aux développeurs
+\item Réduction des coûts de test manuel
+\item Traçabilité et historique des résultats
+\end{itemize}
+\end{successbox}
+
+\section{Suivi et Contrôle de l'Avancement}
+
+\subsection{Métriques Globales du Projet}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{4cm}|L{5cm}|C{2cm}|C{2cm}|}
+\hline
+\headerrow
+\tableheader{Métrique} & \tableheader{Formule / Description} & \tableheader{Objectif} & \tableheader{Source} \
+\hline
+Nombre total de tests & Count(tests) & 
+≥
+≥ 100 & Jest + Xray \
+\hline
+Taux global de réussite & (Réussis / Total) 
+×
+× 100 & 
+≥
+≥ 90% & CI/CD \
+\hline
+Couverture de code & Coverage global & 
+≥
+≥ 80% & Jest \
+\hline
+Nombre de défauts & Count(bugs) & Trend 
+↓
+↓ & Jira \
+\hline
+Temps pipeline CI/CD & Durée end-to-end & < 10 min & GitHub \
+\hline
+Taux d'automatisation & (Auto / Total) 
+×
+× 100 & 
+≥
+≥ 80% & Manuel \
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Métriques par Niveau de Test}
+
+\subsubsection{Tests Unitaires (Jest)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{5cm}|C{2.5cm}|L{4.5cm}|}
+\hline
+\headerrow
+\tableheader{Métrique} & \tableheader{Objectif} & \tableheader{Outil de collecte} \
+\hline
+Nombre de tests unitaires & 
+≥
+≥ 50 & Jest reporter \
+\hline
+Taux de réussite unitaire & 
+≥
+≥ 95% & Jest output \
+\hline
+Couverture statements & 
+≥
+≥ 85% & Jest coverage \
+\hline
+Couverture branches & 
+≥
+≥ 80% & Jest coverage \
+\hline
+Couverture functions & 
+≥
+≥ 90% & Jest coverage \
+\hline
+Temps d'exécution total & < 30 secondes & Jest --verbose \
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Tests d'Intégration}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{5cm}|C{2.5cm}|L{4.5cm}|}
+\hline
+\headerrow
+\tableheader{Métrique} & \tableheader{Objectif} & \tableheader{Outil de collecte} \
+\hline
+Nombre de scénarios & 
+≥
+≥ 30 & Supertest reporter \
+\hline
+Taux de réussite & 
+≥
+≥ 90% & CI/CD logs \
+\hline
+Temps moyen réponse API & < 200ms & Supertest response time \
+\hline
+Défaillances MongoDB & 0 & Error logs \
+\hline
+Tests flaky (instables) & < 5% & CI/CD history \
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Tests E2E}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{5cm}|C{2.5cm}|L{4.5cm}|}
+\hline
+\headerrow
+\tableheader{Métrique} & \tableheader{Objectif} & \tableheader{Outil de collecte} \
+\hline
+Scénarios E2E exécutés & 
+≥
+≥ 15 & Newman/Postman reports \
+\hline
+Taux de réussite E2E & 
+≥
+≥ 85% & Postman/Chai output \
+\hline
+Temps moyen parcours & < 2 secondes & Newman timing \
+\hline
+Défaillances en chaîne & 0 & Analyse manuelle \
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Tests de Performance}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{5cm}|C{2.5cm}|L{4.5cm}|}
+\hline
+\headerrow
+\tableheader{Métrique} & \tableheader{Objectif} & \tableheader{Outil de collecte} \
+\hline
+Temps moyen de réponse (p50) & < 150ms & autocannon/loadtest \
+\hline
+Temps p95 & < 300ms & autocannon \
+\hline
+Temps p99 & < 500ms & autocannon \
+\hline
+Requêtes par seconde & 
+≥
+≥ 50 req/s & loadtest \
+\hline
+Taux d'erreurs sous charge & < 1% & loadtest errors \
+\hline
+Utilisation CPU/Mémoire & < 70% & Monitoring système \
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Fréquence de Collecte et Reporting}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{4.5cm}|C{2.5cm}|L{5cm}|}
+\hline
+\headerrow
+\tableheader{Type de rapport} & \tableheader{Fréquence} & \tableheader{Destinataires} \
+\hline
+Rapport quotidien CI/CD & Quotidien & Équipe technique \
+\hline
+Dashboard métriques & Temps réel & Test Lead \
+\hline
+Rapport hebdomadaire & Hebdomadaire & Management + QA \
+\hline
+Rapport de couverture & Chaque push & Développeurs \
+\hline
+Rapport final de clôture & Fin de projet & Toutes parties prenantes \
+\hline
+\end{tabular}
+\end{center}
+
+\section{Gestion de Configuration}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{3cm}|L{2.5cm}|L{5cm}|L{3cm}|}
+\hline
+\headerrow
+\tableheader{Élément} & \tableheader{Outil} & \tableheader{Localisation} & \tableheader{Versionnement} \
+\hline
+Code source & Git / GitHub & Repository principal & Semantic Versioning \
+\hline
+Tests automatisés & Git / GitHub & /tests/ & Avec le code \
+\hline
+Pipeline CI/CD & Git / GitHub & .github/workflows/ & Avec le code \
+\hline
+Cas de test Xray & Jira / Xray & Projet TJAA & Par sprint \
+\hline
+Documentation & Git / GitHub & /docs/ et README.md & Markdown versionné \
+\hline
+Données de test & Git / GitHub & /tests/data/ & JSON versionné \
+\hline
+\end{tabular}
+\end{center}
+
+\begin{infobox}[Règles de Gestion]
+\begin{itemize}
+\item Toute modification du code source nécessite un commit explicite
+\item Les tests doivent être mis à jour en même temps que le code
+\item Le pipeline CI/CD est déclenché automatiquement à chaque push sur main
+\item Les rapports sont archivés pour chaque build
+\item Backup quotidien du repository GitHub
+\end{itemize}
+\end{infobox}
+
+\section{Gestion des Défauts}
+
+\subsection{Cycle de Vie d'un Défaut}
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=1.8cm,
+state/.style={
+rectangle, rounded corners=5pt,
+minimum width=2.5cm, minimum height=0.8cm,
+draw=certilogBlue, line width=1pt,
+fill=bgBlue, font=\small\bfseries,
+text=certilogDarkBlue
+},
+arrow/.style={-{Stealth[length=3mm]}, certilogOrange, line width=1.5pt}
+]
+\node[state] (new) {1. CRÉATION};
+\node[state, right=of new] (assigned) {2. AFFECTATION};
+\node[state, right=of assigned] (analysis) {3. ANALYSE};
+\node[state, below=of analysis] (progress) {4. CORRECTION};
+\node[state, left=of progress] (retest) {5. RE-TEST};
+\node[state, left=of retest] (verify) {6. VÉRIFICATION};
+\node[state, below=of verify, fill=bgGreen] (closed) {7. FERMETURE};
+\node[state, right=of closed, fill=bgRed] (reopen) {RÉOUVERTURE};
+
+text
+
+\draw[arrow] (new) -- (assigned);
+\draw[arrow] (assigned) -- (analysis);
+\draw[arrow] (analysis) -- (progress);
+\draw[arrow] (progress) -- (retest);
+\draw[arrow] (retest) -- (verify);
+\draw[arrow] (verify) -- (closed);
+\draw[arrow, dashed] (verify) -- (reopen);
+\draw[arrow, dashed] (reopen) to[bend right=30] (progress);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Criticité des Défauts}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|C{2cm}|L{4.5cm}|L{4cm}|C{2.5cm}|}
+\hline
+\headerrow
+\tableheader{Niveau} & \tableheader{Définition} & \tableheader{Exemple} & \tableheader{Délai} \
+\hline
+\textcolor{errorRed}{\textbf{Bloquant}} & Empêche toute utilisation & Impossibilité de se connecter & < 24h \
+\hline
+\textcolor{certilogOrange}{\textbf{Majeur}} & Fonctionnalité critique défaillante & Token non validé & < 48h \
+\hline
+\textcolor{warningYellow}{\textbf{Mineur}} & Dysfonctionnement non bloquant & Message d'erreur peu clair & < 1 semaine \
+\hline
+\textcolor{certilogGray}{\textbf{Trivial}} & Problème cosmétique & Faute d'orthographe & Backlog \
+\hline
+\end{tabular}
+\end{center}
+
+\section{Outils de Test Utilisés}
+
+\subsection{Vue d'ensemble des Outils}
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=2cm and 1.5cm,
+tool/.style={
+rectangle, rounded corners=8pt,
+minimum width=2.8cm, minimum height=1.2cm,
+draw=certilogBlue, line width=1pt,
+fill=white, font=\small\bfseries,
+drop shadow
+},
+category/.style={
+ellipse, minimum width=3cm, minimum height=1cm,
+fill=certilogBlue, text=white, font=\bfseries
+}
+]
+% Categories
+\node[category] (gestion) at (0,0) {Gestion};
+\node[category] (auto) at (6,0) {Automatisation};
+\node[category] (qualite) at (12,0) {Qualité};
+
+text
+
+% Gestion tools
+\node[tool] (xray) at (-1.5,-2) {Xray};
+\node[tool] (jira) at (1.5,-2) {Jira};
+
+% Automatisation tools
+\node[tool] (jest) at (4,-2) {Jest};
+\node[tool] (supertest) at (6,-2) {Supertest};
+\node[tool] (newman) at (8,-2) {Newman};
+
+% Qualité tools
+\node[tool] (eslint) at (10.5,-2) {ESLint};
+\node[tool] (sonar) at (13.5,-2) {SonarQube};
+
+% CI/CD center
+\node[tool, fill=certilogOrange, text=white, minimum width=4cm] (cicd) at (6,-4) {GitHub Actions};
+
+% Connections
+\draw[certilogGray, line width=1pt] (gestion) -- (xray);
+\draw[certilogGray, line width=1pt] (gestion) -- (jira);
+\draw[certilogGray, line width=1pt] (auto) -- (jest);
+\draw[certilogGray, line width=1pt] (auto) -- (supertest);
+\draw[certilogGray, line width=1pt] (auto) -- (newman);
+\draw[certilogGray, line width=1pt] (qualite) -- (eslint);
+\draw[certilogGray, line width=1pt] (qualite) -- (sonar);
+
+% To CI/CD
+\foreach \tool in {xray, jira, jest, supertest, newman, eslint, sonar} {
+    \draw[certilogOrange, line width=1pt, dashed] (\tool) -- (cicd);
+}
+\end{tikzpicture}
+\end{center}
+
+\subsection{Détail des Outils}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{2.5cm}|L{2.5cm}|L{4cm}|L{3.5cm}|}
+\hline
+\headerrow
+\tableheader{Outil} & \tableheader{Type} & \tableheader{Utilisation} & \tableheader{Intégration} \
+\hline
+Xray & Gestion tests & Cas de test, campagnes & Jira \
+\hline
+Jira & Gestion défauts & Suivi anomalies, workflow & Xray, GitHub \
+\hline
+Jest & Tests unitaires & Fonctions isolées, couverture & GitHub Actions \
+\hline
+Supertest & Tests API & Tests d'intégration HTTP & Jest \
+\hline
+Chai & Assertions & Tests E2E avancés & Postman/Newman \
+\hline
+Newman & Tests E2E auto & Exécution collections & GitHub Actions \
+\hline
+ESLint & Analyse statique & Qualité code, conventions & GitHub Actions \
+\hline
+SonarQube & Qualité code & Code smells, vulnérabilités & Optionnel \
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Traçabilité Complète}
+
+\begin{center}
+\begin{tikzpicture}[
+node distance=1.5cm,
+step/.style={
+rectangle, rounded corners=3pt,
+minimum width=3.5cm, minimum height=0.8cm,
+fill=#1, text=white, font=\small\bfseries
+},
+arrow/.style={-{Stealth[length=2mm]}, line width=1.5pt}
+]
+\node[step=certilogBlue] (req) {1. EXIGENCE (Jira)};
+\node[step=certilogTeal, right=of req] (test) {2. CAS DE TEST (Xray)};
+\node[step=certilogOrange, right=of test] (script) {3. SCRIPT AUTO};
+\node[step=certilogNavy, below=1.2cm of script] (exec) {4. EXÉCUTION CI/CD};
+\node[step=successGreen, left=of exec] (result) {5. RÉSULTATS};
+\node[step=errorRed, left=of result] (defect) {6. DÉFAUT (si échec)};
+
+text
+
+\draw[arrow, certilogGray] (req) -- (test);
+\draw[arrow, certilogGray] (test) -- (script);
+\draw[arrow, certilogGray] (script) -- (exec);
+\draw[arrow, certilogGray] (exec) -- (result);
+\draw[arrow, certilogGray, dashed] (result) -- (defect);
+\draw[arrow, certilogGray, dashed] (defect) to[bend right=30] (req);
+\end{tikzpicture}
+\end{center}
+
+\section{Gestion de la Qualité}
+
+\begin{infobox}[Principes de Qualité Appliqués]
+\begin{description}
+\item[\faLink\ Traçabilité totale] Chaque exigence a au moins un test associé
+\item[\faUsers\ Revue par les pairs] Tout code est revu avant merge
+\item[\faCheckDouble\ Critères d'acceptation] Chaque user story a des critères mesurables
+\item[\faRedo\ Amélioration continue] Rétrospectives après chaque sprint
+\item[\faCode\ Standards de codage] Respect des conventions ESLint
+\end{description}
+\end{infobox}
+
+\subsection{Audits Qualité Planifiés}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{4cm}|C{2.5cm}|L{4cm}|}
+\hline
+\headerrow
+\tableheader{Type d'audit} & \tableheader{Fréquence} & \tableheader{Responsable} \
+\hline
+Revue de code & Chaque Pull Request & Pair developer \
+\hline
+Audit des tests & Hebdomadaire & Test Lead \
+\hline
+Revue de couverture & Chaque push & Automatique (CI/CD) \
+\hline
+Audit sécurité & Fin de sprint & Test Engineer \
+\hline
+Validation finale & Avant déploiement & Encadrant \
+\hline
+\end{tabular}
+\end{center}
+
+%==============================================================================
+% CHAPTER 7: BESOINS EN ENVIRONNEMENTS
+%==============================================================================
+\chapter{BESOINS EN ENVIRONNEMENTS}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|C{1.2cm}|L{3cm}|L{4cm}|L{4.5cm}|}
+\hline
+\headerrow
+\tableheader{ID} & \tableheader{Environnement} & \tableheader{Description} & \tableheader{Configuration} \
+\hline
+ENV-01 & Local Development & Postes de travail & Node.js v18+, MongoDB, npm, Git \
+\hline
+ENV-02 & CI/CD GitHub Actions & Intégration continue & Ubuntu latest, Node.js v18 \
+\hline
+ENV-03 & MongoDB Test & Base de données & MongoDB 6.0+, collections test \
+\hline
+ENV-04 & Staging (optionnel) & Pré-production & Environnement miroir \
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{metricbox}[Variables d'Environnement Requises]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{3cm}|L{5cm}|L{4.5cm}|}
+\hline
+\headerrow
+\tableheader{Variable} & \tableheader{Description} & \tableheader{Exemple} \
+\hline
+MONGODB_URI & URL connexion MongoDB & mongodb://localhost:27017/testdb \
+\hline
+JWT_SECRET & Clé secrète JWT & mySecretKey123 \
+\hline
+JWT_EXPIRATION & Durée validité token & 86400 (24h) \
+\hline
+PORT & Port serveur Express & 3000 \
+\hline
+NODE_ENV & Environnement Node & test / production \
+\hline
+\end{tabular}
+\end{center}
+\end{metricbox}
+
+%==============================================================================
+% CHAPTER 8: BESOINS EN RESSOURCES ET FORMATION
+%==============================================================================
+\chapter{BESOINS EN RESSOURCES ET FORMATION}
+
+\section{Ressources Humaines}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{2.5cm}|L{3cm}|C{2cm}|C{3cm}|L{3cm}|}
+\hline
+\headerrow
+\tableheader{Rôle} & \tableheader{Nom} & \tableheader{Charge} & \tableheader{Période} & \tableheader{Compétences} \
+\hline
+Test Lead & Rana ROMDHANE & 50% (4h/j) & 01/10 - 15/12/2025 & Jest, Xray, Jira \
+\hline
+Test Engineer & Oulimata SALL & 50% (4h/j) & 01/10 - 15/12/2025 & Supertest, CI/CD \
+\hline
+Encadrant & Hela AOUADI & 10% (conseil) & 01/10 - 15/12/2025 & Validation, revue \
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\textbf{Total effort estimé :} 8 jours/personne
+
+\section{Ressources Matérielles}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{4cm}|C{2cm}|L{6cm}|}
+\hline
+\headerrow
+\tableheader{Ressource} & \tableheader{Quantité} & \tableheader{Usage} \
+\hline
+Postes de travail & 2 & Développement et tests locaux \
+\hline
+Accès GitHub & 2 comptes & Repository et CI/CD \
+\hline
+Licence Jira/Xray & 2 utilisateurs & Gestion tests et défauts \
+\hline
+MongoDB Atlas (opt.) & 1 cluster & BD cloud pour tests \
+\hline
+\end{tabular}
+\end{center}
+
+\section{Besoins en Formation}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|L{4cm}|L{3.5cm}|C{1.5cm}|C{2.5cm}|}
+\hline
+\headerrow
+\tableheader{Thème} & \tableheader{Public} & \tableheader{Durée} & \tableheader{Date prévue} \
+\hline
+Xray / Jira pour les tests & O. SALL & R. ROMDHANE & 2h & 05/10/2025 \
+\hline
+Jest avancé & O. SALL & R. ROMDHANE & 3h & 10/10/2025 \
+\hline
+Sécurité API (OWASP) & R. ROMDHANE & 2h & 15/10/2025 \
+\hline
+GitHub Actions CI/CD & R. ROMDHANE & 2h & 20/10/2025 \
+\hline
+Techniques de test API & O. SALL & 2h & 12/10/2025 \
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\textbf{Total formation :} 11 heures
+
+%==============================================================================
+% CHAPTER 9: TÂCHES DE TEST ET RESPONSABILITÉS
+%==============================================================================
+\chapter{TÂCHES DE TEST ET RESPONSABILITÉS}
+
+\section{Rôles et Responsabilités}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{2.5cm}|L{2.5cm}|L{2cm}|L{6cm}|}
+\hline
+\headerrow
+\tableheader{Rôle} & \tableheader{NOM Prénom} & \tableheader{Entité} & \tableheader{Responsabilités principales} \
+\hline
+Test Lead & ROMDHANE Rana & Équipe QA &
+\begin{minipage}[t]{5.5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=1em, topsep=0pt, itemsep=0pt]
+\item Planification des tests
+\item Création des cas de test
+\item Coordination avec l'encadrant
+\item Analyse des résultats
+\end{itemize}
+\vspace{2pt}
+\end{minipage} \
+\hline
+Test Engineer & SALL Oulimata & Équipe QA &
+\begin{minipage}[t]{5.5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=1em, topsep=0pt, itemsep=0pt]
+\item Automatisation (Jest, Supertest)
+\item Configuration CI/CD
+\item Tests de sécurité
+\item Maintenance du pipeline
+\end{itemize}
+\vspace{2pt}
+\end{minipage} \
+\hline
+Encadrant & AOUADI Hela & ENICAR &
+\begin{minipage}[t]{5.5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=1em, topsep=0pt, itemsep=0pt]
+\item Validation du plan de test
+\item Revue des livrables
+\item Approbation finale
+\end{itemize}
+\vspace{2pt}
+\end{minipage} \
+\hline
+\end{tabular}
+\end{center}
+
+\section{Préparation des Tests}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabular}{|L{4cm}|C{2cm}|C{1cm}|C{2cm}|L{3.5cm}|}
+\hline
+\headerrow
+\tableheader{Description} & \tableheader{Responsable} & \tableheader{Charge} & \tableheader{Date fin} & \tableheader{Livrables} \
+\hline
+Analyse des exigences & R. ROMDHANE & 0,5 j & 10/10/2025 & Document d'analyse \
+\hline
+Rédaction cas de test & O. SALL & 1 j & 25/10/2025 & 50+ cas dans Xray \
+\hline
+Installation outils & Équipe & 0,5 j & 20/10/2025 & Env. opérationnel \
+\hline
+Configuration CI/CD & O. SALL & 0,5 j & 17/11/2025 & Pipeline fonctionnel \
+\hline
+Création jeu de données & R. ROMDHANE & 0,5 j & 25/10/2025 & Fichiers JSON \
+\hline
+Rédaction Plan de Test & O. SALL & 1 j & 01/12/2025 & Ce document \
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+\textbf{Total préparation :} 4 jours
+
+\section{Exécution des Tests}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabular}{|L{4cm}|C{2cm}|C{1cm}|C{2cm}|L{3.5cm}|}
+\hline
+\headerrow
+\tableheader{Description} & \tableheader{Responsable} & \tableheader{Charge} & \tableheader{Date fin} & \tableheader{Livrables} \\
+\hline
+Tests unitaires Jest & R. ROMDHANE & 0,5 j & 01/11/2025 & Rapport Jest + couverture \\
+\hline
+Tests endpoints API & O. SALL & 1 j & 02/11/2025 & Rapport Supertest \\
+\hline
+Scénarios E2E & R. ROMDHANE & 1 j & 02/11/2025 & Collection Postman \\
+\hline
+Tests de sécurité & O. SALL & 1 j & 05/11/2025 & Rapport sécurité \\
+\hline
+Tests performance & R. ROMDHANE & 0,5 j & 05/11/2025 & Rapport performance \\
+\hline
+Analyse des résultats & O. SALL & 0,5 j & 20/11/2025 & Liste défauts Jira \\
+\hline
+Correction défauts & Équipe & 1 j & 30/11/2025 & Code corrigé \\
+\hline
+Re-tests & O. SALL & 0,5 j & 05/12/2025 & Rapport re-test \\
+\hline
+Rapport Final & O. SALL & 1 j & 15/12/2025 & Rapport de clôture \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+\textbf{Total exécution :} 7 jours
+
+%==============================================================================
+% CHAPTER 10: CRITÈRES D'ARRÊT ET CONDITIONS DE REPRISE
+%==============================================================================
+\chapter{CRITÈRES D'ARRÊT ET CONDITIONS DE REPRISE DES TESTS}
+
+\section{Critères d'Arrêt (Suspension des Tests)}
+
+Les tests seront suspendus immédiatement si l'une des conditions suivantes est remplie :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{3.5cm}|L{4.5cm}|L{5cm}|}
+\hline
+\headerrow
+\tableheader{Critère} & \tableheader{Description} & \tableheader{Action corrective} \\
+\hline
+Taux d'échec critique & Plus de 20\% des tests critiques échouent & Analyse d'impact + correction urgente \\
+\hline
+Environnement instable & MongoDB indisponible ou CI/CD en panne & Restauration environnement \\
+\hline
+Bloqueur technique & Bug bloquant empêchant l'exécution & Correction prioritaire du bug \\
+\hline
+Données corrompues & Impossible de réinitialiser la BD & Recréation des données \\
+\hline
+Pipeline non fonctionnel & GitHub Actions ne démarre plus & Debug du workflow YAML \\
+\hline
+Ressources indisponibles & Absence prolongée d'un testeur clé & Réaffectation des tâches \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Conditions de Reprise des Tests}
+
+Les tests peuvent reprendre uniquement si \textbf{toutes} les conditions suivantes sont satisfaites :
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{4cm}|L{5.5cm}|C{3cm}|}
+\hline
+\headerrow
+\tableheader{Condition} & \tableheader{Vérification} & \tableheader{Responsable} \\
+\hline
+Anomalies résolues & Tous les défauts bloquants sont fermés & Test Lead \\
+\hline
+Environnement validé & MongoDB + CI/CD opérationnels & Test Engineer \\
+\hline
+Données restaurées & Jeu de données initial recréé et vérifié & Test Engineer \\
+\hline
+Tests critiques validés & Au moins 90\% des tests critiques passent & Test Lead \\
+\hline
+Approbation formelle & Encadrant valide la reprise & Encadrant \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{metricbox}[Processus de Reprise]
+\begin{enumerate}
+    \item Correction des défauts bloquants
+    \item Validation environnement (smoke tests)
+    \item Exécution tests critiques uniquement
+    \item Si succès > 90\% $\rightarrow$ reprise complète
+    \item Sinon $\rightarrow$ nouvelle analyse
+\end{enumerate}
+\end{metricbox}
+
+%==============================================================================
+% CHAPTER 11: LIVRABLES DU TEST
+%==============================================================================
+\chapter{LIVRABLES DU TEST}
+
+Cette section identifie l'ensemble des livrables produits durant les activités de test.
+
+\section{Cas de Test}
+
+\begin{docinfo}[Description]
+Ensemble complet des cas de tests fonctionnels, techniques, d'intégration, de sécurité et E2E créés dans Xray.
+
+\textbf{Contenu :}
+\begin{itemize}
+    \item Cas de test inscription (signup) - env. 8 scénarios
+    \item Cas de test connexion (signin) - env. 10 scénarios
+    \item Cas de test gestion des rôles - env. 12 scénarios
+    \item Cas de test endpoints protégés - env. 10 scénarios
+    \item Cas de test sécurité JWT - env. 8 scénarios
+    \item Cas de test performance (basiques) - env. 5 scénarios
+\end{itemize}
+
+\textbf{Total estimé :} 50+ cas de test
+
+\textbf{Localisation :}
+\begin{itemize}
+    \item \faFolder\ Xray – Projet Jira : TJAA
+    \item \faFileAlt\ Exemple : [TJAA-35] Campagne de Test - Sprint 1
+\end{itemize}
+
+\textbf{Format :} Cas de test structurés Xray avec préconditions, étapes, résultats attendus
+\end{docinfo}
+
+\section{Scripts d'Automatisation (Jest / Supertest)}
+
+\begin{docinfo}[Description]
+Scripts Node.js permettant l'exécution automatique des tests unitaires et d'intégration.
+
+\textbf{Tests unitaires :}
+\begin{itemize}
+    \item Validation des données (\texttt{validators.test.js})
+    \item Hashing et cryptographie (\texttt{crypto.test.js})
+    \item Génération JWT (\texttt{jwt.test.js})
+\end{itemize}
+
+\textbf{Tests d'intégration :}
+\begin{itemize}
+    \item Endpoints d'authentification (\texttt{auth.integration.test.js})
+    \item Middleware JWT (\texttt{middleware.test.js})
+    \item Accès protégé (\texttt{protected.routes.test.js})
+\end{itemize}
+
+\textbf{Localisation :}
+\begin{itemize}
+    \item \faGithub\ GitHub Repository : \url{https://github.com/RanaRomdhane/node-js-jwt-auth-testing}
+    \item \faFolder\ Dossier \texttt{/tests/}
+\end{itemize}
+
+\textbf{Format :} Fichiers \texttt{.js} versionnés avec Git
+\end{docinfo}
+
+\section{Rapports de Couverture}
+
+\begin{docinfo}[Description]
+Rapports générés automatiquement par Jest après chaque exécution CI/CD.
+
+\textbf{Contenu :}
+\begin{itemize}
+    \item Couverture globale (statements, branches, functions, lines)
+    \item Couverture par module/fichier
+    \item Fichiers non couverts
+    \item Rapport HTML interactif
+\end{itemize}
+
+\textbf{Métriques cibles :}
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\headerrow
+\tableheader{Métrique} & \tableheader{Objectif} \\
+\hline
+Statements & $\geq$ 80\% \\
+\hline
+Branches & $\geq$ 80\% \\
+\hline
+Functions & $\geq$ 80\% \\
+\hline
+Lines & $\geq$ 80\% \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Localisation :}
+\begin{itemize}
+    \item GitHub Actions $\rightarrow$ Artifacts $\rightarrow$ coverage-report
+    \item Localement : \texttt{/coverage/index.html}
+    \item Format JSON : \texttt{/coverage/coverage-final.json}
+\end{itemize}
+
+\textbf{Format :} HTML, JSON, LCOV
+\end{docinfo}
+
+\section{Rapports de Tests E2E}
+
+\begin{docinfo}[Description]
+Rapports issus des tests End-to-End exécutés avec Postman/Newman/Chai.
+
+\textbf{Scénarios E2E couverts :}
+\begin{enumerate}
+    \item Inscription $\rightarrow$ Connexion $\rightarrow$ Accès ressource user
+    \item Inscription admin $\rightarrow$ Connexion $\rightarrow$ Accès ressource admin
+    \item Connexion $\rightarrow$ Refresh token $\rightarrow$ Nouvelle requête
+    \item Tentative accès sans token $\rightarrow$ Erreur 401
+    \item Tentative accès rôle insuffisant $\rightarrow$ Erreur 403
+\end{enumerate}
+
+\textbf{Localisation :}
+\begin{itemize}
+    \item \faArchive\ Workspace Postman (collections exportées)
+    \item \faGithub\ GitHub Repository : \texttt{/reports/e2e/}
+    \item \faJira\ Xray : Campagnes d'exécution E2E
+\end{itemize}
+
+\textbf{Format :} HTML, JSON
+\end{docinfo}
+
+\section{Rapport de Performance}
+
+\begin{docinfo}[Description]
+Résultats des tests de charge effectués avec autocannon / loadtest.
+
+\textbf{Métriques principales :}
+\begin{itemize}
+    \item Transactions par seconde (TPS)
+    \item Latence moyenne, p95, p99
+    \item Taux d'erreur (HTTP 4xx, 5xx)
+    \item Débit (throughput) en req/s
+\end{itemize}
+
+\textbf{Objectifs de performance :}
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\headerrow
+\tableheader{Métrique} & \tableheader{Objectif} \\
+\hline
+Temps de réponse moyen & < 150ms \\
+\hline
+p95 & < 300ms \\
+\hline
+p99 & < 500ms \\
+\hline
+Taux d'erreur & < 1\% \\
+\hline
+Support charge & 50 req/s \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Format :} TXT, JSON, graphiques PNG
+\end{docinfo}
+
+\section{Rapport d'Anomalies}
+
+\begin{docinfo}[Description]
+Liste exhaustive des défauts détectés pendant les phases de test.
+
+\textbf{Structure du rapport :}
+\begin{enumerate}
+    \item Résumé exécutif (nombre total, répartition par criticité)
+    \item Défauts bloquants (liste détaillée)
+    \item Défauts majeurs (liste résumée)
+    \item Défauts mineurs/triviaux (liste)
+    \item Défauts reportés (backlog futur)
+    \item Tendances et recommandations
+\end{enumerate}
+
+\textbf{Localisation :} \faJira\ Jira – Projet TJAA
+
+\textbf{Format :} Jira (online), Excel (export)
+\end{docinfo}
+
+\section{Rapport Final de Test (Rapport de Clôture)}
+
+\begin{docinfo}[Description]
+Synthèse finale des activités de test conformément au modèle Certilog.
+
+\textbf{Contenu :}
+\begin{itemize}
+    \item \textbf{Résumé exécutif} : Objectifs atteints, taux de réussite, défis rencontrés
+    \item \textbf{Résultats globaux} : Nombre de tests, taux de réussite, couverture, défauts
+    \item \textbf{Analyse qualité} : Conformité fonctionnelle, sécurité, performance
+    \item \textbf{Métriques CI/CD} : Stabilité pipeline, temps d'exécution, automatisation
+    \item \textbf{Défauts restants} : Défauts ouverts, risques acceptés, plan futur
+    \item \textbf{Recommandations} : Améliorations, tests à ajouter, optimisations
+    \item \textbf{Leçons apprises} : Bonnes pratiques, difficultés rencontrées
+    \item \textbf{Conclusion} : Avis final, recommandation de mise en production
+\end{itemize}
+
+\textbf{Localisation :}
+\begin{itemize}
+    \item \faFileWord\ Document Word : \texttt{Rapport\_de\_cloture\_v1.0.docx}
+    \item \faFilePdf\ GitHub Repository : \texttt{/documents/Rapport\_Final\_Test.pdf}
+\end{itemize}
+
+\textbf{Date de livraison :} 15/12/2025
+\end{docinfo}
+
+\section{Données de Test}
+
+\begin{docinfo}[Description]
+Jeux de données MongoDB utilisés pour les tests automatisés.
+
+\textbf{Utilisateurs de test :}
+\begin{codebox}[JSON]
+\begin{lstlisting}[language=Java]
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "hashed_password",
+  "roles": ["user"]
+}
+\end{lstlisting}
+\end{codebox}
+
+\textbf{Rôles disponibles :}
+\begin{itemize}
+    \item \texttt{user} - accès basique
+    \item \texttt{moderator} - accès intermédiaire
+    \item \texttt{admin} - accès total
+\end{itemize}
+
+\textbf{Tokens de test :}
+\begin{itemize}
+    \item Tokens valides avec différentes expirations
+    \item Tokens expirés
+    \item Tokens mal formés (pour tests sécurité)
+\end{itemize}
+
+\textbf{Localisation :}
+\begin{itemize}
+    \item \faGithub\ GitHub Repository : \texttt{/tests/data/}
+    \item \faCode\ Script d'initialisation : \texttt{/tests/setup/seed-test-db.js}
+\end{itemize}
+
+\textbf{Format :} JSON
+\end{docinfo}
+
+\section{Outils de Support}
+
+\begin{docinfo}[Description]
+Outils et scripts utilisés pour faciliter et exécuter les tests.
+
+\textbf{Mocks et Stubs Jest :}
+\begin{itemize}
+    \item Mock MongoDB : \texttt{\_\_mocks\_\_/mongoose.js}
+    \item Mock JWT : \texttt{\_\_mocks\_\_/jsonwebtoken.js}
+    \item Stub bcrypt : \texttt{\_\_mocks\_\_/bcryptjs.js}
+\end{itemize}
+
+\textbf{Configuration CI/CD :}
+\begin{itemize}
+    \item \texttt{.github/workflows/main.yml} (pipeline principal)
+\end{itemize}
+
+\textbf{Scripts utilitaires :}
+\begin{itemize}
+    \item \texttt{tests/utils/db-helper.js} (connexion/déconnexion DB)
+    \item \texttt{tests/utils/token-generator.js} (génération tokens)
+    \item \texttt{tests/utils/reset-db.js} (réinitialisation DB)
+\end{itemize}
+
+\textbf{Collections Postman :}
+\begin{itemize}
+    \item \texttt{postman/JWT-Auth-API.postman\_collection.json}
+    \item \texttt{postman/test-environment.json}
+\end{itemize}
+
+\textbf{Format :} JavaScript, JSON, YAML
+\end{docinfo}
+
+%==============================================================================
+% CHAPTER 12: RISQUES ET CONTINGENCES
+%==============================================================================
+\chapter{RISQUES ET CONTINGENCES}
+
+\begin{landscape}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{longtable}{|C{1.2cm}|L{3.5cm}|C{1.2cm}|C{1.5cm}|L{5.5cm}|C{2cm}|}
+\hline
+\headerrow
+\tableheader{ID} & \tableheader{Description du risque} & \tableheader{Impact} & \tableheader{Prob.} & \tableheader{Contingence} & \tableheader{Responsable} \\
+\hline
+\endfirsthead
+\hline
+\headerrow
+\tableheader{ID} & \tableheader{Description du risque} & \tableheader{Impact} & \tableheader{Prob.} & \tableheader{Contingence} & \tableheader{Responsable} \\
+\hline
+\endhead
+
+RISK-01 & Instabilité de MongoDB (connexions perdues, timeouts) & Fort & \probhigh & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item MongoDB Memory Server pour tests
+    \item Script de réinitialisation automatique
+    \item Retry logic dans les tests
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & R. ROMDHANE \\
+\hline
+
+RISK-02 & Token JWT expiré pendant tests (longues exécutions) & Moyen & \probmedium & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item Nouveaux tokens avant chaque suite
+    \item Tokens avec expiration longue (24h)
+    \item Refresh automatique dans tests E2E
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & O. SALL \\
+\hline
+
+RISK-03 & Pipeline CI/CD en panne (GitHub Actions indisponible) & Fort & \problow & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item Exécution locale possible (npm test)
+    \item Documentation des commandes manuelles
+    \item Rapports locaux exportables vers Xray
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & R. ROMDHANE \\
+\hline
+
+RISK-04 & Défauts bloquants multiples (> 20\% échecs critiques) & Fort & \probmedium & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item Suspension immédiate des tests
+    \item Session de debug prioritaire
+    \item Réaffectation des ressources
+    \item Extension délai si nécessaire
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & Test Lead \\
+\hline
+
+RISK-05 & Indisponibilité d'un testeur (maladie, urgence) & Moyen & \probmedium & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item Cross-training entre testeurs
+    \item Documentation détaillée des tâches
+    \item Backup plan avec l'encadrant
+    \item Priorisation tests critiques
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & Test Lead \\
+\hline
+
+RISK-06 & Données de test corrompues (modifications accidentelles) & Moyen & \probmedium & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item Versioning des données dans Git
+    \item Script de reset automatique
+    \item Backup quotidien des données
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & R. ROMDHANE \\
+\hline
+
+RISK-07 & Couverture de code insuffisante (< 80\%) & Moyen & \probmedium & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item Sprint dédié tests unitaires
+    \item Analyse des zones non couvertes
+    \item Priorisation du code critique
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & O. SALL \\
+\hline
+
+RISK-08 & Problèmes de compatibilité (versions Node.js, dépendances) & Faible & \problow & 
+\begin{minipage}[t]{5cm}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.8em, topsep=0pt, itemsep=0pt, parsep=0pt]
+    \item Lock des versions dans package-lock.json
+    \item Tests de compatibilité pré-intégration
+    \item Utilisation de nvm
+\end{itemize}
+\vspace{2pt}
+\end{minipage} & R. ROMDHANE \\
+\hline
+
+\end{longtable}
+\end{center}
+\end{landscape}
+
+\begin{infobox}[Légende Probabilité]
+\begin{itemize}
+    \item \textcolor{errorRed}{\faCircle} \textbf{Élevée} (> 50\%)
+    \item \textcolor{warningYellow}{\faCircle} \textbf{Moyenne} (20-50\%)
+    \item \textcolor{successGreen}{\faCircle} \textbf{Faible} (< 20\%)
+\end{itemize}
+\end{infobox}
+
+%==============================================================================
+% CHAPTER 13: CRITÈRES DE PASSAGE OU ÉCHEC
+%==============================================================================
+\chapter{CRITÈRES DE PASSAGE OU ÉCHEC}
+
+\section{Critères de Succès (GO)}
+
+Le projet de test est considéré comme \textbf{RÉUSSI} si \textbf{TOUS} les critères suivants sont satisfaits :
+
+\begin{successbox}[Critères de Succès]
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{4.5cm}|C{2.5cm}|L{5.5cm}|}
+\hline
+\headerrow
+\tableheader{Critère} & \tableheader{Seuil minimum} & \tableheader{Mesure} \\
+\hline
+Taux de réussite des tests & $\geq$ 90\% & (Tests réussis / Total) $\times$ 100 \\
+\hline
+Couverture de code & $\geq$ 80\% & Jest coverage (statements, branches, functions) \\
+\hline
+Défauts critiques & 0 défaut ouvert & Jira - criticité = Bloquant \\
+\hline
+Défauts majeurs & $\leq$ 2 défauts & Jira - criticité = Majeur (avec justification) \\
+\hline
+Pipeline CI/CD & $\geq$ 95\% succès & GitHub Actions - 10 derniers runs \\
+\hline
+Tests de sécurité & 100\% validés & Tous scénarios OWASP passés \\
+\hline
+Tests de performance & Objectifs atteints & Temps < 300ms (p95), erreur < 1\% \\
+\hline
+Documentation livrée & 100\% & Tous les livrables présents et validés \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\begin{tikzpicture}
+    \node[fill=successGreen, text=white, rounded corners=5pt, 
+          inner xsep=20pt, inner ysep=10pt, font=\Large\bfseries] {
+        \faCheckCircle\quad MISE EN PRODUCTION AUTORISÉE
+    };
+\end{tikzpicture}
+\end{center}
+\end{successbox}
+
+\section{Critères d'Échec (NO-GO)}
+
+Le projet de test est considéré comme \textbf{ÉCHOUÉ} si \textbf{AU MOINS UN} des critères suivants est présent :
+
+\begin{errorbox}[Critères d'Échec]
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{4cm}|C{2.5cm}|L{5.5cm}|}
+\hline
+\headerrow
+\tableheader{Critère bloquant} & \tableheader{Seuil d'alerte} & \tableheader{Impact} \\
+\hline
+Taux de réussite & < 70\% & Qualité insuffisante, risque élevé \\
+\hline
+Défaut critique ouvert & $\geq$ 1 défaut & Fonctionnalité majeure défaillante \\
+\hline
+Couverture de code & < 60\% & Zones non testées trop importantes \\
+\hline
+Pipeline CI/CD & Échec constant & Qualité en continu impossible \\
+\hline
+Tests sécurité échoués & $\geq$ 1 vulnérabilité & Risque de sécurité inacceptable \\
+\hline
+Performance dégradée & Temps > 1s (p95) & Expérience utilisateur inacceptable \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\begin{tikzpicture}
+    \node[fill=errorRed, text=white, rounded corners=5pt, 
+          inner xsep=20pt, inner ysep=10pt, font=\Large\bfseries] {
+        \faTimesCircle\quad MISE EN PRODUCTION REFUSÉE
+    };
+\end{tikzpicture}
+\end{center}
+\end{errorbox}
+
+\section{Critères d'Acceptation Conditionnelle}
+
+Si les critères suivants sont présents, une \textbf{mise en production conditionnelle} peut être envisagée :
+
+\begin{notebox}[Acceptation Conditionnelle]
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{3cm}|C{3cm}|L{6cm}|}
+\hline
+\headerrow
+\tableheader{Situation} & \tableheader{Condition} & \tableheader{Plan d'action requis} \\
+\hline
+Taux de réussite & Entre 70\% et 90\% & Analyse détaillée + correction sous 48h \\
+\hline
+Défauts majeurs & Entre 3 et 5 défauts & Plan de correction priorisé + hotfix prévu \\
+\hline
+Couverture de code & Entre 60\% et 80\% & Sprint dédié tests + monitoring renforcé \\
+\hline
+Performance & p95 entre 300-500ms & Optimisation planifiée + monitoring \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\begin{tikzpicture}
+    \node[fill=warningYellow, text=certilogDarkGray, rounded corners=5pt, 
+          inner xsep=20pt, inner ysep=10pt, font=\Large\bfseries] {
+        \faExclamationTriangle\quad MISE EN PRODUCTION SOUS RÉSERVE
+    };
+\end{tikzpicture}
+\end{center}
+\end{notebox}
+
+\section{Processus de Validation Finale}
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    step/.style={
+        rectangle, rounded corners=5pt,
+        minimum width=4cm, minimum height=1cm,
+        fill=certilogBlue, text=white, font=\small\bfseries,
+        drop shadow
+    },
+    arrow/.style={-{Stealth[length=3mm]}, certilogOrange, line width=2pt}
+]
+    \node[step] (step1) {1. Auto-évaluation (Test Lead)};
+    \node[step, below=of step1] (step2) {2. Revue par les pairs};
+    \node[step, below=of step2] (step3) {3. Présentation encadrant};
+    \node[step, below=of step3] (step4) {4. Décision formelle};
+    \node[step, below=of step4, fill=successGreen] (step5) {5. Documentation};
+    
+    \draw[arrow] (step1) -- (step2);
+    \draw[arrow] (step2) -- (step3);
+    \draw[arrow] (step3) -- (step4);
+    \draw[arrow] (step4) -- (step5);
+    
+    % Decision labels
+    \node[right=1cm of step4, font=\small] {GO / NO-GO / Conditionnel};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\fcolorbox{certilogBlue}{bgBlue}{
+    \parbox{0.8\textwidth}{
+        \centering
+        \textbf{\faCalendarCheck\ Date de validation finale :} 15/12/2025
+    }
+}
+\end{center}
+
+%==============================================================================
+% CHAPTER 14: INFORMATIONS COMPLÉMENTAIRES
+%==============================================================================
+\chapter{INFORMATIONS COMPLÉMENTAIRES}
+
+\section{Contexte Académique}
+
+Ce projet s'inscrit dans le cadre d'un \textbf{projet académique ENICAR} visant à :
+
+\begin{itemize}
+    \item Appliquer les méthodologies de test professionnelles
+    \item Maîtriser les outils modernes de test et CI/CD
+    \item Développer des compétences en assurance qualité logicielle
+    \item Préparer à des certifications de test (ISTQB)
+\end{itemize}
+
+\begin{infobox}[Encadrement]
+Le projet est supervisé par \textbf{Mme Hela AOUADI}, enseignante à l'ENICAR, spécialiste en génie logiciel et qualité.
+\end{infobox}
+
+\section{Contraintes Spécifiques}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|L{3.5cm}|L{9.5cm}|}
+\hline
+\headerrow
+\tableheader{Type de contrainte} & \tableheader{Description} \\
+\hline
+Réglementaire & Aucune contrainte légale particulière (projet académique) \\
+\hline
+Budgétaire & Budget limité : utilisation d'outils gratuits/open-source uniquement \\
+\hline
+Temporelle & Deadline stricte : 15/12/2025 (fin du semestre) \\
+\hline
+Technologique & Stack : Node.js, MongoDB, JWT, GitHub Actions \\
+\hline
+Pédagogique & Respect du template Certilog + présentation orale obligatoire \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Spécificités Techniques}
+
+\subsection{Architecture du Projet}
+
+\begin{codebox}[Structure du projet]
+\begin{lstlisting}[language=bash, basicstyle=\ttfamily\small\color{white}]
+node-js-jwt-auth-testing/
+|-- src/
+|   |-- controllers/    (logique metier)
+|   |-- models/         (schemas MongoDB)
+|   |-- middlewares/    (auth, validation)
+|   |-- routes/         (endpoints API)
+|   +-- utils/          (helpers)
+|-- tests/
+|   |-- unit/           (tests Jest unitaires)
+|   |-- integration/    (tests Supertest)
+|   |-- e2e/            (tests Chai/Newman)
+|   |-- data/           (fixtures)
+|   +-- utils/          (test helpers)
+|-- .github/
+|   +-- workflows/      (CI/CD)
++-- coverage/           (rapports)
+\end{lstlisting}
+\end{codebox}
+
+\subsection{Technologies Utilisées}
+
+\begin{center}
+\begin{tikzpicture}[
+    tech/.style={
+        rectangle, rounded corners=5pt,
+        minimum width=3.5cm, minimum height=0.8cm,
+        fill=#1, text=white, font=\small\bfseries
+    }
+]
+    % Backend
+    \node[tech=certilogBlue] (node) at (0,0) {\faNodeJs\ Node.js v18+};
+    \node[tech=certilogTeal] (express) at (4,0) {Express v4};
+    \node[tech=successGreen] (mongo) at (8,0) {\faDatabase\ MongoDB 6.0+};
+    
+    % Auth
+    \node[tech=certilogOrange] (jwt) at (0,-1.2) {\faKey\ JWT};
+    \node[tech=certilogNavy] (bcrypt) at (4,-1.2) {\faLock\ bcryptjs};
+    
+    % Tests
+    \node[tech=errorRed] (jest) at (0,-2.4) {Jest};
+    \node[tech=warningYellow, text=certilogDarkGray] (supertest) at (4,-2.4) {Supertest};
+    \node[tech=certilogGray] (chai) at (8,-2.4) {Chai};
+    
+    % CI/CD
+    \node[tech=certilogDarkBlue] (github) at (4,-3.6) {\faGithub\ GitHub Actions};
+\end{tikzpicture}
+\end{center}
+
+\section{Points d'Attention Particuliers}
+
+\begin{metricbox}[Points Critiques]
+\begin{description}[leftmargin=1.5cm, labelwidth=1.3cm]
+    \item[\faShieldAlt\ Sécurité JWT] Validation rigoureuse des tokens (expiration, signature, payload) - tests de sécurité prioritaires
+    \item[\faUserShield\ Gestion des rôles] Vérification stricte des permissions - tests d'autorisation exhaustifs
+    \item[\faTachometerAlt\ Performance MongoDB] Indexation correcte des collections - tests de performance sur requêtes
+    \item[\faLink\ Traçabilité] Chaque exigence $\rightarrow$ test $\rightarrow$ résultat $\rightarrow$ défaut doit être lié dans Xray
+\end{description}
+\end{metricbox}
+
+\section{Livrables Finaux du Projet Global}
+
+En plus des livrables de test, le projet académique nécessite :
+
+\begin{checklist}
+    \item Code source complet (GitHub)
+    \item Documentation technique (README, API docs)
+    \item Plan de Test (ce document)
+    \item Rapport Final de Test
+    \item Présentation PowerPoint (soutenance)
+    \item Démonstration live (API fonctionnelle + tests)
+\end{checklist}
+
+\begin{center}
+\fcolorbox{certilogOrange}{bgOrange}{
+    \parbox{0.6\textwidth}{
+        \centering
+        \textbf{\faCalendarAlt\ Date de soutenance prévue :} 20/12/2025
+    }
+}
+\end{center}
+
+\section{Critères d'Évaluation Académique}
+
+\begin{center}
+\begin{tikzpicture}
+    % Pie chart style evaluation criteria
+    \foreach \p/\c/\l [count=\i from 0] in {
+        15/certilogBlue/Qualité du Plan de Test,
+        20/certilogTeal/Couverture des tests,
+        20/certilogOrange/Automatisation et CI/CD,
+        15/successGreen/Qualité du code,
+        15/certilogNavy/Rapport Final de Test,
+        15/errorRed/Présentation et démo
+    } {
+        \pgfmathsetmacro{\startangle}{90 - \i*60}
+        \pgfmathsetmacro{\endangle}{\startangle - \p*3.6}
+    }
+    
+    % Table instead of pie chart for clarity
+    \node at (0,0) {
+        \begin{tabular}{|L{5.5cm}|C{2.5cm}|}
+        \hline
+        \headerrow
+        \tableheader{Critère} & \tableheader{Pondération} \\
+        \hline
+        Qualité du Plan de Test & 15\% \\
+        \hline
+        Couverture des tests & 20\% \\
+        \hline
+        Automatisation et CI/CD & 20\% \\
+        \hline
+        Qualité du code (ESLint, best practices) & 15\% \\
+        \hline
+        Rapport Final de Test & 15\% \\
+        \hline
+        Présentation et démonstration & 15\% \\
+        \hline
+        \textbf{TOTAL} & \textbf{100\%} \\
+        \hline
+        \end{tabular}
+    };
+\end{tikzpicture}
+\end{center}
+
+\section{Contacts et Support}
+
+\begin{docinfo}[Support Technique]
+\begin{itemize}
+    \item \faGithub\ \textbf{GitHub Issues :} \url{https://github.com/RanaRomdhane/node-js-jwt-auth-testing/issues}
+    \item \faEnvelope\ \textbf{Email équipe :} 
+    \begin{itemize}
+        \item oulimata.sall@enicar.ucar.tn
+        \item rana.romdhane@enicar.ucar.tn
+    \end{itemize}
+\end{itemize}
+\end{docinfo}
+
+\begin{docinfo}[Support Pédagogique]
+\begin{itemize}
+    \item \faChalkboardTeacher\ \textbf{Encadrante :} hela.boukhriss@enicar.ucar.tn
+\end{itemize}
+\end{docinfo}
+
+%==============================================================================
+% CHAPTER 15: GLOSSAIRE
+%==============================================================================
+\chapter{GLOSSAIRE}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{longtable}{|L{3cm}|L{10cm}|}
+\hline
+\headerrow
+\tableheader{Terme} & \tableheader{Définition} \\
+\hline
+\endfirsthead
+\hline
+\headerrow
+\tableheader{Terme} & \tableheader{Définition} \\
+\hline
+\endhead
+
+API & Application Programming Interface - interface permettant la communication entre systèmes logiciels \\
+\hline
+Artifact & Fichier produit par un pipeline CI/CD (rapports, logs, binaires) \\
+\hline
+Bcrypt & Algorithme de hachage cryptographique pour sécuriser les mots de passe \\
+\hline
+Branch & Branche conditionnelle dans le code (if/else) \\
+\hline
+CI/CD & Continuous Integration / Continuous Deployment - pratiques d'automatisation du développement \\
+\hline
+Coverage & Couverture de code - pourcentage de code exécuté par les tests \\
+\hline
+E2E & End-to-End - tests de bout en bout simulant le parcours utilisateur complet \\
+\hline
+ESLint & Outil d'analyse statique de code JavaScript \\
+\hline
+Flaky test & Test instable donnant des résultats aléatoires (succès/échec) \\
+\hline
+GitHub Actions & Plateforme CI/CD intégrée à GitHub \\
+\hline
+Jest & Framework de test JavaScript développé par Facebook \\
+\hline
+Jira & Outil de gestion de projet et de suivi des défauts \\
+\hline
+JWT & JSON Web Token - standard d'authentification basé sur des tokens \\
+\hline
+Lint / Linting & Analyse statique du code pour détecter erreurs et violations de conventions \\
+\hline
+Mock & Objet simulé remplaçant une dépendance réelle dans les tests \\
+\hline
+MongoDB & Base de données NoSQL orientée documents \\
+\hline
+Newman & Outil CLI pour exécuter les collections Postman \\
+\hline
+Node.js & Environnement d'exécution JavaScript côté serveur \\
+\hline
+OWASP & Open Web Application Security Project - référence en sécurité web \\
+\hline
+p95 / p99 & Percentile 95/99 - mesure de latence (95\% ou 99\% des requêtes sous ce temps) \\
+\hline
+Pipeline & Chaîne automatisée d'étapes CI/CD (build, test, deploy) \\
+\hline
+Postman & Outil de test d'API avec interface graphique \\
+\hline
+RACI & Responsible, Accountable, Consulted, Informed - matrice de responsabilités \\
+\hline
+REST & Representational State Transfer - architecture d'API web \\
+\hline
+Smoke test & Test rapide vérifiant les fonctionnalités de base d'une application \\
+\hline
+SonarQube & Plateforme d'analyse de qualité de code \\
+\hline
+Sprint & Période de développement itérative (généralement 1-4 semaines) \\
+\hline
+Stub & Version simplifiée d'un composant pour les tests \\
+\hline
+Supertest & Bibliothèque Node.js pour tester les API HTTP \\
+\hline
+TDD & Test-Driven Development - développement guidé par les tests \\
+\hline
+TPS & Transactions Per Second - nombre de transactions par seconde \\
+\hline
+Xray & Extension Jira pour la gestion avancée des tests \\
+\hline
+
+\end{longtable}
+\end{center}
+
+%==============================================================================
+% SIGNATURES ET APPROBATIONS
+%==============================================================================
+\chapter*{SIGNATURES ET APPROBATIONS}
+\addcontentsline{toc}{chapter}{SIGNATURES ET APPROBATIONS}
+
+\vspace{1cm}
+
+\begin{center}
+\begin{tikzpicture}
+    \node[fill=certilogBlue, text=white, minimum width=14cm, minimum height=1.2cm, 
+          rounded corners=5pt, font=\Large\bfseries] {
+        VALIDATION DU DOCUMENT
+    };
+\end{tikzpicture}
+\end{center}
+
+\vspace{1.5cm}
+
+\begin{center}
+\renewcommand{\arraystretch}{2.5}
+\begin{tabular}{|L{3cm}|L{4cm}|C{4cm}|C{2.5cm}|}
+\hline
+\headerrow
+\tableheader{Rôle} & \tableheader{Nom} & \tableheader{Signature} & \tableheader{Date} \\
+\hline
+\textbf{Rédigé par} & 
+\begin{minipage}[t]{3.5cm}
+Rana ROMDHANE\\
+\&\\
+Oulimata SALL
+\end{minipage} & 
+& 01/12/2025 \\
+\hline
+\textbf{Vérifié par} & Rana ROMDHANE & & 01/12/2025 \\
+\hline
+\textbf{Approuvé par} & Hela AOUADI & & \_\_\_ / \_\_\_ / 2025 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{2cm}
+
+\begin{center}
+\begin{tikzpicture}
+    % Official stamp placeholder
+    \draw[certilogBlue, line width=2pt, dashed] (0,0) circle (2cm);
+    \node[text=certilogGray, font=\small] at (0,0) {Cachet officiel};
+\end{tikzpicture}
+\end{center}
+
+\vspace{2cm}
+
+\begin{center}
+\fcolorbox{certilogBlue}{bgBlue}{
+    \parbox{0.9\textwidth}{
+        \centering
+        \vspace{0.5cm}
+        \textbf{\Large Document conforme au template Certilog v1.0.1}
+        \vspace{0.3cm}
+        
+        \faUniversity\ ENICAR - École Nationale d'Ingénieurs de Carthage
+        
+        \vspace{0.3cm}
+        \faCalendarAlt\ Année académique 2025-2026
+        \vspace{0.5cm}
+    }
+}
+\end{center}
+
+%==============================================================================
+% BACK COVER
+%==============================================================================
+\newpage
+\thispagestyle{empty}
+
+\begin{tikzpicture}[remember picture, overlay]
+    % Background
+    \fill[certilogDarkBlue] (current page.south west) rectangle (current page.north east);
+    
+    % Decorative elements
+    \foreach \x/\y/\r/\o in {3/5/4/0.1, 15/-3/5/0.08, -2/20/3/0.12} {
+        \fill[white, opacity=\o] ([xshift=\x cm, yshift=\y cm]current page.south west) 
+            circle (\r cm);
+    }
+    
+    % Grid pattern
+    \foreach \i in {0,1,...,21} {
+        \draw[white, opacity=0.03, line width=0.5pt] 
+            ([xshift=\i cm]current page.south west) -- 
+            ([xshift=\i cm]current page.north west);
+    }
+    \foreach \i in {0,1,...,29} {
+        \draw[white, opacity=0.03, line width=0.5pt] 
+            ([yshift=\i cm]current page.south west) -- 
+            ([yshift=\i cm]current page.south east);
+    }
+    
+    % Content
+    \node[anchor=center] at (current page.center) {
+        \begin{minipage}{12cm}
+            \centering
+            
+            % Logo
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=10pt, inner sep=15pt] {
+                    \begin{tabular}{c}
+                        \textcolor{certilogBlue}{\fontsize{30}{36}\selectfont\bfseries CERTILOG}\\[-3pt]
+                        \textcolor{certilogOrange}{\small\itshape Quality Assurance Template}
+                    \end{tabular}
+                };
+            \end{tikzpicture}
+            
+            \vspace{2cm}
+            
+            % Title
+            {\color{white}\fontsize{24}{30}\selectfont\bfseries
+            Plan de Test\\[10pt]
+            Node.js JWT Authentication}
+            
+            \vspace{1.5cm}
+            
+            % Divider
+            {\color{certilogOrange}\rule{6cm}{3pt}}
+            
+            \vspace{1.5cm}
+            
+            % Project info
+            {\color{white}\Large
+            Référence: \textbf{TJAA-PT-001}\\[8pt]
+            Version: \textbf{1.0}\\[8pt]
+            Date: \textbf{01/12/2025}}
+            
+            \vspace{2cm}
+            
+            % Authors
+            {\color{certilogLightGray}\large
+            Préparé par\\[10pt]
+            \textbf{\color{white}Oulimata SALL \& Rana ROMDHANE}\\[5pt]
+            Équipe QA - ENICAR}
+            
+            \vspace{1.5cm}
+            
+            % Footer
+            {\color{certilogMediumGray}\small
+            \faGithub\ github.com/RanaRomdhane/node-js-jwt-auth-testing\\[5pt]
+            \faEnvelope\ enicar-team-testing@enicar.ucar.tn}
+            
+        \end{minipage}
+    };
+    
+    % Copyright footer
+    \node[anchor=south, text=certilogMediumGray, font=\small] 
+        at ([yshift=1.5cm]current page.south) {
+        \textcopyright\ 2025 ENICAR - Tous droits réservés | Document confidentiel
+    };
+    
+\end{tikzpicture}
+
+\end{document}
